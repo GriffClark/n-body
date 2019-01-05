@@ -10,8 +10,7 @@ const R = 2*1e18;
 function circleV(rx, ry){
     let hyp = Math.sqrt(rx*rx + ry*ry);
     let numerator = (G *1e6 * SOLARMASS);
-    let circleV = Math.sqrt(numerator / hyp);
-    return circleV;
+    return Math.sqrt(numerator / hyp);
 }
 
 class Planet {
@@ -110,16 +109,16 @@ class Quad {
 
     //creates subdivisions of the current quadrant
     NW(){
-        return new Quad(xmid-length/4.0, ymid+length/4.0,length/2.0);
+        return new Quad(this.xmid-length/4.0, this.ymid+length/4.0,length/2.0);
     }
     NE(){
-        return new Quad(xmid+length/4.0, ymid+length/4.0,length/2.0);
+        return new Quad(this.xmid+length/4.0, this.ymid+length/4.0,length/2.0);
     }
     SW(){
-        return new Quad(xmid-length/4.0, ymid-length/4.0,length/2.0);
+        return new Quad(this.xmid-length/4.0, this.ymid-length/4.0,length/2.0);
     }
     SE(){
-        return new Quad(xmid+length/4.0, ymid-length/4.0,length/2.0);
+        return new Quad(this.xmid+length/4.0, this.ymid-length/4.0,length/2.0);
     }
 
 
@@ -135,17 +134,17 @@ class BHTree {
         //these values are set as null so that we can test if this is a leaf
     }
 
-    add(newPlanet){
-        this.planet.mass += newPlanet.mass;
-        this.planet.rx = ((this.planet.mass * this.planet.rx) + (newPlanet.mass * newPlanet.rx)) / (this.planet.mass + newPlanet.mass);
-        this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
-    }
-
     isExternal(){
         if (this.ne == null && this.nw == null && this.sw == null && this.se == null ){
             return true;
         }
         else return false;
+    }
+
+    add(newPlanet){
+        this.planet.mass += newPlanet.mass;
+        this.planet.rx = ((this.planet.mass * this.planet.rx) + (newPlanet.mass * newPlanet.rx)) / (this.planet.mass + newPlanet.mass);
+        this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
     }
 
     //debug
@@ -232,32 +231,33 @@ class BHTree {
                 update your mass and rCM
                  */
                 add(b); //updates rCM and mass
+                //FIXME this is where I left off
             }
             switch(b.quadLocation){
                 case 'nw':
                     if(this.nw === null){
-                        this.nw = new BHTree(b, b.quad.NW());
+                        this.nw = new BHTree(b, this.quad.NW());
                         this.insert(b, this.nw);
                     }
                     break;
 
                 case 'ne':
                     if(this.ne === null){
-                        this.ne = new BHTree(b, b.quad.NE()); //FIXME error here during the debug print
+                        this.ne = new BHTree(b, this.quad.NE());
                         this.insert(b, this.ne);
                     }
                     break;
 
                 case 'sw':
                     if(this.sw === null){
-                        this.sw = new BHTree(b, b.quad.SW());
+                        this.sw = new BHTree(b, this.quad.SW());
                         this.insert(b, this.sw);
                     }
                     break;
 
                 case 'se':
                     if(this.se === null){
-                        this. se = new BHTree(b, b.quad.SE());
+                        this. se = new BHTree(b, this.quad.SE());
                         this.insert(b, this.se);
                     }
                     break;
@@ -326,10 +326,8 @@ function generateRandomPlanet(name){
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
 
-let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
-console.log(numBodies);
-
-
+// let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
+let numBodies = 3;
 let q = new Quad(0,0, R);
 let shouldRun = false; //TODO change this to true when the run button is clicked
 let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
@@ -339,14 +337,76 @@ let universe = new BHTree(sun, q);
 function init(){
     for(i = 0; i < numBodies; i++){
         let name = "planet " + i;
-        universe.insert(generateRandomPlanet(name));
+        let newPlanet = generateRandomPlanet(name);
+        console.log(newPlanet.name + " (" + newPlanet.rx + "," + newPlanet.ry + ")");
+        universe.insert(newPlanet);
     }
+}
+
+function updatePlanetsBH() {
+    //TODO write me
+}
+
+function BFGuts(node, listOfPlanets){
+    if(node.nw != null){
+        if(node.nw.isExternal()){
+            listOfPlanets.push(node.nw.planet);
+        }
+        else{
+            BFGuts(node.nw, listOfPlanets);
+        }
+    }
+
+    if(node.ne != null){
+        if(node.ne.isExternal()){
+            listOfPlanets.push(node.ne.planet);
+        }
+        else{
+            BFGuts(node.ne, listOfPlanets);
+        }
+    }
+
+    if(node.sw != null){
+        if(node.sw.isExternal()){
+            listOfPlanets.push(node.sw.planet);
+        }
+        else{
+            BFGuts(node.sw, listOfPlanets);
+        }
+    }
+
+    if(node.se != null){
+        if(node.se.isExternal()){
+            listOfPlanets.push(node.planet);
+        }
+        else{
+            BFGuts(node.se, listOfPlanets);
+        }
+    }
+
+
+}
+
+function updatePlanetsBF(){
+    //preamble (stuff I only need to do once
+    /*
+    create an empty list of planets
+     */
+    let listOfPlanets = new Planet[numBodies];
+
+    //recursive function call
+    BFGuts(universe, listOfPlanets);
+    for(i = 0; i < listOfPlanets.length; i++){
+        console.log(listOfPlanets[i].name);
+    }
+
 }
 
 function updatePlanets(dt){
     switch(interactionMethod){
         case "BHTree":
             //TODO write interaction methods
+            updatePlanetsBH();
             break;
 
         default: //this means that we are going to use the BruteForce method
@@ -359,17 +419,7 @@ function updatePlanets(dt){
             and if the planet you are looking at isn't yourself
             add the force of the new planet on you
              */
-            if(universe.nw != null){
-                if(universe.nw.isExternal()){
-                    console.log(this.nw.planet.name + " (" + this.nw.planet.rx + "," + this.nw.planet.ry+ ")");
-                }
-                else{
-                    this.debugPrint(this.nw);
-                    console.log("generalized mass for nw quad--> " + this.planet.mass + " (" + this.planet.rx + "," + this.planet.ry + ")");
-                }
-            }
-            else
-                console.log("nw is null");
+           updatePlanetsBF();
 
 
     }
@@ -377,7 +427,7 @@ function updatePlanets(dt){
 
 
 
-
+init();
 
 
 
