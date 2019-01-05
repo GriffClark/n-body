@@ -89,6 +89,61 @@ class Planet {
 
 
 };
+
+function insert(b, location){
+
+    //if this node is empty, put this planet into it
+    if(location.planet == null){
+        location.planet = b;
+    }
+    /*
+    if a body already exists here, but this node IS NOT external
+    combine the two bodies and figure out which quadrant of the tree it should be in
+    then, update the tree
+     */
+    else{
+
+        if (location.isExternal() === false) {
+            /*
+            if you are not external
+            update your mass and rCM
+             */
+            location.merge(b); //updates rCM and mass
+
+        }
+        switch(b.quadLocation){
+            case 'nw':
+                if(location.nw === null){
+                    location.nw = new BHTree(location.quad.NW()); //FIXME this is erring out
+                    //FIXME right now working to make sure that each BHTree just contains a quad, and you can use that as a stop condition
+                    insert(b, location.nw);
+                }
+                break;
+
+            case 'ne':
+                if(location.ne === null){
+                    location.ne = new BHTree(location.quad.NE());
+                    insert(b, location.ne);
+                }
+                break;
+
+            case 'sw':
+                if(location.sw === null){
+                    location.sw = new BHTree(location.quad.SW());
+                    insert(b, location.sw);
+                }
+                break;
+
+            case 'se':
+                if(location.se === null){
+                    location.se = new BHTree(location.quad.SE());
+                    insert(b, location.se);
+                }
+                break;
+        }
+    }
+}//end insert function
+
 class Quad {
     constructor(xmid, ymid, length){
         this.xmid = xmid;
@@ -124,8 +179,8 @@ class Quad {
 
 }
 class BHTree {
-    constructor (planet, quad){
-        this.planet = planet; //body or aggregate body stored in this node
+    constructor (quad){
+        this.planet = null; //body or aggregate body stored in this node
         this.quad = quad; //the whole region this node represents
         this.nw = null; //tree representing the northwest quadrant
         this.ne = null; //tree representing the northeast quadrant
@@ -141,7 +196,8 @@ class BHTree {
         else return false;
     }
 
-    add(newPlanet){
+    merge(newPlanet){
+        //TODO what to do if this.planet = null
         this.planet.mass += newPlanet.mass;
         this.planet.rx = ((this.planet.mass * this.planet.rx) + (newPlanet.mass * newPlanet.rx)) / (this.planet.mass + newPlanet.mass);
         this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
@@ -196,7 +252,7 @@ class BHTree {
         }
 
         if(this.se != null){
-            if(this.nw.isExternal()){
+            if(this.se.isExternal()){
                 console.log(this.se.planet.name + this.se.planet.rx + "," + this.se.planet.ry);
             }
             else{
@@ -209,61 +265,14 @@ class BHTree {
             console.log("se is null");
         }
 
+        if(this.isExternal() && this.planet != null){
+            console.log(this.planet.name);
+        }
+
     }
 
     //We have to populate the tree with planets. We start at the current tree and recursively travel through the branches
-    insert(b){
 
-        //if this node is empty, put this planet into it
-        if(this.planet == null){
-            this.planet = b;
-        }
-        /*
-        if a body already exists here, but this node IS NOT external
-        combine the two bodies and figure out which quadrant of the tree it should be in
-        then, update the tree
-         */
-        else{
-
-            if (this.isExternal() === false) {
-                /*
-                if you are not external
-                update your mass and rCM
-                 */
-                add(b); //updates rCM and mass
-                //FIXME this is where I left off
-            }
-            switch(b.quadLocation){
-                case 'nw':
-                    if(this.nw === null){
-                        this.nw = new BHTree(b, this.quad.NW());
-                        this.insert(b, this.nw);
-                    }
-                    break;
-
-                case 'ne':
-                    if(this.ne === null){
-                        this.ne = new BHTree(b, this.quad.NE());
-                        this.insert(b, this.ne);
-                    }
-                    break;
-
-                case 'sw':
-                    if(this.sw === null){
-                        this.sw = new BHTree(b, this.quad.SW());
-                        this.insert(b, this.sw);
-                    }
-                    break;
-
-                case 'se':
-                    if(this.se === null){
-                        this. se = new BHTree(b, this.quad.SE());
-                        this.insert(b, this.se);
-                    }
-                    break;
-            }
-        }
-        }//end insert function
 
     updateForce(b){ //FIXME do not understand what this method is doing
         if(this.isExternal()){
@@ -292,17 +301,21 @@ class BHTree {
 //returns a random planet in a random point in the universe
 function generateRandomPlanet(name){
     //set a random location
-    if(Math.random() % 2 === 0){
-        this.rx =  /*needs to be between -1e9 and 1e9*/ Math.random() * 1e9;
-    }
-    else
-        this.rx = -1 * Math.random() * 1e9;
+    //TODO make sure that these aren't all - numbers
+    let xRandom = (Math.random() * 10);
+    let yRandom = (Math.random() * 10);
 
-    if(Math.random() % 2 === 0){
-        this.ry =  /*needs to be between -1e9 and 1e9*/ Math.random() * 1e9;
+    if( xRandom % 2 === 0){
+        this.rx =  /*needs to be between -1e9 and 1e9*/ xRandom * 1e9;
     }
     else
-        this.ry = -1 * Math.random() * 1e9;
+        this.rx = -1 * xRandom * 1e9;
+
+    if(yRandom % 2 === 0){
+        this.ry =  /*needs to be between -1e9 and 1e9*/ yRandom * 1e9;
+    }
+    else
+        this.ry = -1 * yRandom * 1e9;
 
     // set v0x and v0y
     let px = R * (-Math.log(1 - Math.random()) / -1.8) * (0.5 - Math.random());
@@ -331,10 +344,11 @@ let numBodies = 3;
 let q = new Quad(0,0, R);
 let shouldRun = false; //TODO change this to true when the run button is clicked
 let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
-let sun = new Planet("sun", SOLARMASS,0,0,0,0,0,0);
-let universe = new BHTree(sun, q);
+
 
 function init(){
+
+
     for(i = 0; i < numBodies; i++){
         let name = "planet " + i;
         let newPlanet = generateRandomPlanet(name);
@@ -424,10 +438,41 @@ function updatePlanets(dt){
 
     }
 }
+let sun = new Planet("sun", SOLARMASS,0,0,0,0,0,0);
+let testQuad = new Quad(0,0,12);
+let universe = new BHTree(sun, testQuad);
+let planet0 = new Planet("planet 0", EARTHMASS, 5, 5, 0, 0, 0, 0);
+let planet1 = new Planet("planet 1", EARTHMASS, -5, 5, 0, 0, 0, 0);
+let planet2 = new Planet("planet 2", EARTHMASS, -5, -5, 0, 0, 0, 0);
+let planet3 = new Planet("planet 3", EARTHMASS, 5, -5, 0, 0, 0, 0);
+universe.debugPrint(universe);
+console.log("-----------------------------");
+insert(planet0, universe);
+universe.debugPrint(universe);
+console.log("-----------------------------");
+insert(planet1, universe);
+universe.debugPrint(universe);
+console.log("-----------------------------");
+
+insert(planet2, universe);
+universe.debugPrint(universe);
+console.log("-----------------------------");
+
+insert(planet3, universe);
+universe.debugPrint(universe);
+console.log("-----------------------------");
+
+let planet4 = new Planet("planet 4", EARTHMASS, 1, 1, 0, 0, 0, 0);
+insert(planet4, universe);
+console.log("planet 4 inserted");
+universe.debugPrint(universe);
+console.log("-----------------------------");
 
 
 
-init();
+
+
+
 
 
 
