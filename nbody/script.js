@@ -5,7 +5,8 @@ console.log("found js file");
 const G = 6.673e-11;
 const SOLARMASS = 1.98892e30;
 const EARTHMASS = 5.972e24;
-const R = 2*1e18;
+// const R = 2*1e18;
+const R = 20;
 
 function circleV(rx, ry){
     let hyp = Math.sqrt(rx*rx + ry*ry);
@@ -39,15 +40,19 @@ class Planet {
     } //end constructor
 
     //update the velocity and position of planets using time step dt
-    updateVelocityPosition(dt){
+    updateVelocity(dt){
         //update velocities
         this.vx += dt *this.fx / this.mass;
         this.vy += dt *this.fy / this.mass;
 
+    };
+
+    updatePosition(dt){
+
         //update position
         this.rx += dt * this.vx;
         this.ry += dt * this.vy;
-    };
+    }
 
     //calculate the distance between two planets
     distanceTo(otherPlanet){
@@ -110,6 +115,59 @@ function insert(b, location){
         kickPlanet(b, location);
     }
 }//end insert function
+
+function debugPrint(bhtree){
+    /*
+    for each child
+    if not external --> debug print each of the children and output myself
+    if child is external --> print body toString() and coordinates
+
+     */
+
+    //northwest
+    if(bhtree.nw != null){
+        if(bhtree.nw.isExternal() === false){
+            debugPrint(bhtree.nw);
+        }
+        console.log(bhtree.nw.planet.name + " (" + bhtree.nw.planet.rx + "," + bhtree.nw.planet.ry+ ")");
+    }
+    else
+        console.log("nw is null");
+
+    //northeast
+    if(bhtree.ne != null){
+        if(bhtree.ne.isExternal() === false){
+            debugPrint(bhtree.ne);
+        }
+        console.log(bhtree.ne.planet.name + " (" + bhtree.ne.planet.rx + "," + bhtree.ne.planet.ry+ ")");
+    }
+    else
+        console.log("ne is null");
+
+    //southwest
+    if(bhtree.sw != null){
+        if(bhtree.sw.isExternal() === false){
+            debugPrint(bhtree.sw);
+        }
+        console.log(bhtree.sw.planet.name + " (" + bhtree.sw.planet.rx + "," + bhtree.sw.planet.ry+ ")");
+    }
+    else
+        console.log("sw is null");
+
+    //southeast
+    if(bhtree.se != null){
+        if(bhtree.se.isExternal() === false){
+            debugPrint(bhtree.se);
+        }
+        console.log(bhtree.se.planet.name + " (" + bhtree.se.planet.rx + "," + bhtree.se.planet.ry+ ")");
+    }
+    else
+        console.log("nw is null");
+    if(bhtree.isExternal() && bhtree.planet != null){
+        console.log(bhtree.planet.name);
+    }
+
+}
 
 function kickPlanet(b, location){
     let testX = b.rx - location.quad.xmid;
@@ -204,60 +262,6 @@ class BHTree {
         this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
     }
 
-    //debug
-    debugPrint(universe){
-        /*
-        for each child
-        if not external --> debug print each of the children and output myself
-        if child is external --> print body toString() and coordinates
-
-         */
-
-        //northwest
-        if(this.nw != null){
-            if(this.nw.isExternal() === false){
-                this.debugPrint(this.nw);
-            }
-            console.log(this.nw.planet.name + " (" + this.nw.planet.rx + "," + this.nw.planet.ry+ ")");
-        }
-        else
-            console.log("nw is null");
-
-        //northeast
-        if(this.ne != null){
-            if(this.ne.isExternal() === false){
-                this.debugPrint(this.ne);
-            }
-            console.log(this.ne.planet.name + " (" + this.ne.planet.rx + "," + this.ne.planet.ry+ ")");
-        }
-        else
-            console.log("ne is null");
-
-        //southwest
-        if(this.sw != null){
-            if(this.sw.isExternal() === false){
-                this.debugPrint(this.sw);
-            }
-            console.log(this.sw.planet.name + " (" + this.sw.planet.rx + "," + this.sw.planet.ry+ ")");
-        }
-        else
-            console.log("sw is null");
-
-        //southeast
-        if(this.se != null){
-            if(this.se.isExternal() === false){
-                this.debugPrint(this.se);
-            }
-            console.log(this.se.planet.name + " (" + this.se.planet.rx + "," + this.se.planet.ry+ ")");
-        }
-        else
-            console.log("nw is null");
-        if(this.isExternal() && this.planet != null){
-            console.log(this.planet.name);
-        }
-
-    }
-
     //We have to populate the tree with planets. We start at the current tree and recursively travel through the branches
 
 
@@ -288,21 +292,20 @@ class BHTree {
 //returns a random planet in a random point in the universe
 function generateRandomPlanet(name){
     //set a random location
-    //TODO make sure that these aren't all - numbers
     let xRandom = (Math.random() * 10);
     let yRandom = (Math.random() * 10);
 
     if( xRandom % 2 === 0){
-        this.rx =  /*needs to be between -1e9 and 1e9*/ xRandom * 1e9;
+        this.rx =  /*needs to be between -R/2 and R/2*/ xRandom * R/2;
     }
     else
-        this.rx = -1 * xRandom * 1e9;
+        this.rx = -1 * xRandom * R/2;
 
     if(yRandom % 2 === 0){
-        this.ry =  /*needs to be between -1e9 and 1e9*/ yRandom * 1e9;
+        this.ry =  /*needs to be between -R/2 and R/2*/ yRandom * R/2;
     }
     else
-        this.ry = -1 * yRandom * 1e9;
+        this.ry = -1 * yRandom * R/2;
 
     // set v0x and v0y
     let px = R * (-Math.log(1 - Math.random()) / -1.8) * (0.5 - Math.random());
@@ -327,8 +330,6 @@ function generateRandomPlanet(name){
 }
 
 // let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
-let numBodies = 3;
-let q = new Quad(0,0, R);
 let shouldRun = false; //TODO change this to true when the run button is clicked
 let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
 
@@ -425,55 +426,56 @@ function updatePlanets(dt){
 
     }
 }
+let dt = 1; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
+let currentTime = 0;
+let stopTime = 5; //when do you want to run until?
+let q = new Quad(0,0,R);
+let universe = new BHTree(q);
+let numPlanets = 3;
+let listOfPlanets = []; //an array of unknows size
 let sun = new Planet("sun", SOLARMASS,3,3,0,0,0,0);
-let testQuad = new Quad(0,0,20);
-let universe = new BHTree(testQuad);
-let planet0 = new Planet("planet 0", EARTHMASS, -5, -5, 0, 0, 0, 0);
-let planet1 = new Planet("planet 1", EARTHMASS, -5, 5, 0, 0, 0, 0);
-let planet2 = new Planet("planet 2", EARTHMASS, 5, 5, 0, 0, 0, 0);
-let planet3 = new Planet("planet 3", EARTHMASS, 5, -5, 0, 0, 0, 0);
-insert(sun, universe);
-console.log("sun inserted");
-console.log(universe);
 
-console.log("-----------------------------");
-insert(planet0, universe);
-console.log("p0 inserted");
+//initializing brute force
+listOfPlanets.push(sun);
+for(i = 0; i < numPlanets; i++){
+    listOfPlanets.push(generateRandomPlanet("planet" + i));
+}
 
-console.log(universe);
+//run through brute force
+console.log(listOfPlanets);
+while(currentTime < stopTime){
+    currentTime += dt; //move forward a little bit in time
+    /*
+    listOfPlanets[i] is the planet you are computing the force on
+    listOfPlanets[j] is the planet that is acting on listOfPlanets[i]
+     */
+    for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
+        for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
+            if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
+                listOfPlanets[i].addForce(listOfPlanets[j]);
+                listOfPlanets[i].updateVelocity(dt);
+            }
+        } //added all forces for listOfPlanets[i]
+    } //end for loop
 
-console.log("-----------------------------");
-insert(planet1, universe);
-console.log("p1 inserted");
+    //now that all forces and velocities have been updated, update position
+    for(i = 0; i < listOfPlanets.length; i++){
+        //for each planet, update it's position after dt time has passed
+        listOfPlanets[i].updatePosition(dt);
+    }
+    console.log(currentTime);
+    console.log(listOfPlanets);
 
-console.log(universe);
-
-console.log("-----------------------------");
-
-insert(planet2, universe);
-console.log("p2 inserted");
-
-console.log(universe);
-
-console.log("-----------------------------");
-
-insert(planet3, universe);
-console.log("p3 inserted");
-
-console.log(universe);
-
-console.log("-----------------------------");
-
-let planet4 = new Planet("planet 4", EARTHMASS, 1, 1, 0, 0, 0, 0);
-insert(planet4, universe);
-console.log("planet 4 inserted");
-console.log(universe);
-
-console.log("-----------------------------");
+}
 
 
-universe.debugPrint(universe);
+debugPrint(universe);
 
+/*
+TODO
+make sure that planets are withing the quad (if the quad is size 20 you cant have a planet at 21
+force velocity and location variables are not changing 
+ */
 
 
 
