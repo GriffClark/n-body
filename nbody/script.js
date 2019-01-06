@@ -33,6 +33,7 @@ class Planet {
         this.vy = vy; //y velocity
         this.fx = fx; //x-force component
         this.fy = fy; //y-force component
+        this.virtualPlanet = false; //used to determine if planet is real or just a summation of other planets in the tree
         //tell what quad it's in 'nw' 'ne' 'sw''se'
         this.quadLocation = this.setQuadLocation();
 
@@ -82,7 +83,6 @@ class Planet {
         let dist = this.distanceTo(otherPlanet);
         let force = (G * this.mass * otherPlanet.mass) / (dist * dist); //GMm/r^2
 
-        //TODO check if the fx and fy math is correct
         this.fx += force * this.dx / dist;
         this.fy =  force * this.dy / dist;
     };
@@ -101,62 +101,76 @@ function insert(b, location){
     combine the two bodies and figure out which quadrant of the tree it should be in
     then, update the tree
      */
+    else if(location.planet.virtualPlanet === true){
+        /*
+        if you have a virtual planet, you are not an external node
+        figure out where the planet belongs and put the planet there
+         */
+        location.planet.name += " + " + b.name;
+        location.merge(b);
+        kickPlanet(b, location);
+    }
     else{
+        //you have a real planet that you need to now make a virtual planet for
 
-        if (location.isExternal() === false) {
-            /*
-            if you are not external
-            update your mass and rCM
-             */
-            location.merge(b); //updates rCM and mass
-
-        }
-        switch(b.quadLocation){
-            case 'nw':
-                if(location.nw === null){
-                    location.nw = new BHTree(location.quad.NW()); //FIXME this is erring out
-                    insert(b, location.nw);
-                }
-                break;
-
-            case 'ne':
-                if(location.ne === null){
-                    location.ne = new BHTree(location.quad.NE());
-                    insert(b, location.ne);
-                }
-                break;
-
-            case 'sw':
-                if(location.sw === null){
-                    location.sw = new BHTree(location.quad.SW());
-                    insert(b, location.sw);
-                }
-                break;
-
-            case 'se':
-                if(location.se === null){
-                    location.se = new BHTree(location.quad.SE());
-                    insert(b, location.se);
-                }
-                break;
-
-            case 'se':
-                if(location.se === null){
-                    location.se = new BHTree(location.quad.SE());
-                    insert(b, location.se);
-                }
-                break;
-
-            default: //put it in the south west quadrant
-                if(location.sw === null){
-                    location.sw = new BHTree(location.quad.SW());
-                    insert(b, location.sw);
-                }
-                break;
-        }
-
+        //kick old planet
+        newVirtualPlanet = location.planet;
+        kickPlanet(location.planet, location); //kick down the planet that is already here
+        console.log(universe);
+        //set up virtual planet
+        location.planet = newVirtualPlanet;
+        location.planet.virtualPlanet = true;
+        location.planet.name += " virtual";
+        console.log(universe);
+        //kick new planet
+        location.merge(b);
+        kickPlanet(b, location);
+        location.planet.name += " + " + b.name;
+        console.log(universe);
     }
 }//end insert function
+
+function kickPlanet(b, location){
+    switch(b.quadLocation){
+        case 'nw':
+            if(location.nw === null){
+                location.nw = new BHTree(location.quad.NW()); //FIXME this is erring out
+                insert(b, location.nw);
+            }
+            break;
+
+        case 'ne':
+            if(location.ne === null){
+                location.ne = new BHTree(location.quad.NE());
+            }
+            insert(b, location.ne);
+            break;
+
+        case 'sw':
+            if(location.sw === null){
+                location.sw = new BHTree(location.quad.SW());
+            }
+            insert(b, location.sw);
+
+            break;
+
+        case 'se':
+            if(location.se === null){
+                location.se = new BHTree(location.quad.SE());
+            }
+            insert(b, location.se);
+
+            break;
+
+        default: //put it in the south west quadrant
+            if(location.sw === null){
+                location.sw = new BHTree(location.quad.SW());
+            }
+            insert(b, location.sw);
+
+            break;
+    }
+}
 
 class Quad {
     constructor(xmid, ymid, length){
@@ -452,7 +466,7 @@ function updatePlanets(dt){
 
     }
 }
-let sun = new Planet("sun", SOLARMASS,0,0,0,0,0,0);
+let sun = new Planet("sun", SOLARMASS,3,3,0,0,0,0);
 let testQuad = new Quad(0,0,R);
 let universe = new BHTree(testQuad);
 let planet0 = new Planet("planet 0", EARTHMASS, 5, 5, 0, 0, 0, 0);
@@ -460,27 +474,21 @@ let planet1 = new Planet("planet 1", EARTHMASS, -5, 5, 0, 0, 0, 0);
 let planet2 = new Planet("planet 2", EARTHMASS, -5, -5, 0, 0, 0, 0);
 let planet3 = new Planet("planet 3", EARTHMASS, 5, -5, 0, 0, 0, 0);
 insert(sun, universe);
-universe.debugPrint(universe);
 console.log("-----------------------------");
 insert(planet0, universe);
-universe.debugPrint(universe);
 console.log("-----------------------------");
 insert(planet1, universe);
-universe.debugPrint(universe);
 console.log("-----------------------------");
 
 insert(planet2, universe);
-universe.debugPrint(universe);
 console.log("-----------------------------");
 
 insert(planet3, universe);
-universe.debugPrint(universe);
 console.log("-----------------------------");
 
 let planet4 = new Planet("planet 4", EARTHMASS, 1, 1, 0, 0, 0, 0);
 insert(planet4, universe);
 console.log("planet 4 inserted");
-universe.debugPrint(universe);
 console.log("-----------------------------");
 
 console.log(universe);
