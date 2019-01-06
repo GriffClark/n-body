@@ -101,32 +101,26 @@ function insert(b, location){
     combine the two bodies and figure out which quadrant of the tree it should be in
     then, update the tree
      */
-    else if(location.planet.virtualPlanet === true){
-        /*
+
+    else{ //there was already a planet there
+        if(location.planet.virtualPlanet === true){ //if you already have a virtual planet, then you just need to add this planet and kick it
+            /*
         if you have a virtual planet, you are not an external node
         figure out where the planet belongs and put the planet there
          */
-        location.planet.name += " + " + b.name;
-        location.merge(b);
-        kickPlanet(b, location);
-    }
-    else{
-        //you have a real planet that you need to now make a virtual planet for
+            location.planet.name += " + " + b.name;
+            location.merge(b);
+            kickPlanet(b, location);
+        }
+        else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
+            newVirtualPlanet = location.planet;
+            //set up virtual planet
+            kickPlanet(location.planet, location);
+            location.planet = newVirtualPlanet;
+            location.planet.virtualPlanet = true;
+            location.planet.name += " virtual";
+        }
 
-        //kick old planet
-        newVirtualPlanet = location.planet;
-        kickPlanet(location.planet, location); //kick down the planet that is already here
-        console.log(universe);
-        //set up virtual planet
-        location.planet = newVirtualPlanet;
-        location.planet.virtualPlanet = true;
-        location.planet.name += " virtual";
-        console.log(universe);
-        //kick new planet
-        location.merge(b);
-        kickPlanet(b, location);
-        location.planet.name += " + " + b.name;
-        console.log(universe);
     }
 }//end insert function
 
