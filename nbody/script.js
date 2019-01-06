@@ -115,7 +115,6 @@ function insert(b, location){
             case 'nw':
                 if(location.nw === null){
                     location.nw = new BHTree(location.quad.NW()); //FIXME this is erring out
-                    //FIXME right now working to make sure that each BHTree just contains a quad, and you can use that as a stop condition
                     insert(b, location.nw);
                 }
                 break;
@@ -140,7 +139,22 @@ function insert(b, location){
                     insert(b, location.se);
                 }
                 break;
+
+            case 'se':
+                if(location.se === null){
+                    location.se = new BHTree(location.quad.SE());
+                    insert(b, location.se);
+                }
+                break;
+
+            default: //put it in the south west quadrant
+                if(location.sw === null){
+                    location.sw = new BHTree(location.quad.SW());
+                    insert(b, location.sw);
+                }
+                break;
         }
+
     }
 }//end insert function
 
@@ -164,16 +178,16 @@ class Quad {
 
     //creates subdivisions of the current quadrant
     NW(){
-        return new Quad(this.xmid-length/4.0, this.ymid+length/4.0,length/2.0);
+        return new Quad(this.xmid-this.length/4.0, this.ymid+this.length/4.0,this.length/2.0);
     }
     NE(){
-        return new Quad(this.xmid+length/4.0, this.ymid+length/4.0,length/2.0);
+        return new Quad(this.xmid+this.length/4.0, this.ymid+this.length/4.0,this.length/2.0);
     }
     SW(){
-        return new Quad(this.xmid-length/4.0, this.ymid-length/4.0,length/2.0);
+        return new Quad(this.xmid-this.length/4.0, this.ymid-this.length/4.0,this.length/2.0);
     }
     SE(){
-        return new Quad(this.xmid+length/4.0, this.ymid-length/4.0,length/2.0);
+        return new Quad(this.xmid+this.length/4.0, this.ymid-this.length/4.0,this.length/2.0);
     }
 
 
@@ -323,7 +337,7 @@ function generateRandomPlanet(name){
     let magv = circleV(px, py);
     let absangle = Math.atan(Math.abs(py/px));
     let thetav= Math.PI/2-absangle;
-    this.vx = -1*Math.sign(py)*Math.cos(thetav)*magv;;
+    this.vx = -1*Math.sign(py)*Math.cos(thetav)*magv;
     this.vy =  Math.sign(px)*Math.sin(thetav)*magv;
 
     // figure out which direction to orbit planets in
@@ -439,12 +453,13 @@ function updatePlanets(dt){
     }
 }
 let sun = new Planet("sun", SOLARMASS,0,0,0,0,0,0);
-let testQuad = new Quad(0,0,12);
-let universe = new BHTree(sun, testQuad);
+let testQuad = new Quad(0,0,R);
+let universe = new BHTree(testQuad);
 let planet0 = new Planet("planet 0", EARTHMASS, 5, 5, 0, 0, 0, 0);
 let planet1 = new Planet("planet 1", EARTHMASS, -5, 5, 0, 0, 0, 0);
 let planet2 = new Planet("planet 2", EARTHMASS, -5, -5, 0, 0, 0, 0);
 let planet3 = new Planet("planet 3", EARTHMASS, 5, -5, 0, 0, 0, 0);
+insert(sun, universe);
 universe.debugPrint(universe);
 console.log("-----------------------------");
 insert(planet0, universe);
@@ -467,6 +482,8 @@ insert(planet4, universe);
 console.log("planet 4 inserted");
 universe.debugPrint(universe);
 console.log("-----------------------------");
+
+console.log(universe);
 
 
 
