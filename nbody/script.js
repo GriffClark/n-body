@@ -35,20 +35,8 @@ class Planet {
         this.fy = fy; //y-force component
         this.virtualPlanet = false; //used to determine if planet is real or just a summation of other planets in the tree
         //tell what quad it's in 'nw' 'ne' 'sw''se'
-        this.quadLocation = this.setQuadLocation();
 
     } //end constructor
-
-     setQuadLocation(){
-        if (this.rx >= 0 && this.ry >= 0) {
-            return 'ne';
-        } else if (this.rx >= 0 && this.ry < 0) {
-            return 'se'
-        } else if (this.rx < 0 && this.ry < 0) {
-            return 'sw'
-        } else
-            return 'nw';
-    }
 
     //update the velocity and position of planets using time step dt
     updateVelocityPosition(dt){
@@ -89,7 +77,7 @@ class Planet {
 
 
 };
-
+//TODO planet 0 name did not add but planet 1 did
 function insert(b, location){
 
     //if this node is empty, put this planet into it
@@ -110,60 +98,51 @@ function insert(b, location){
          */
             location.planet.name += " + " + b.name;
             location.merge(b);
-            kickPlanet(b, location);
         }
         else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
-            newVirtualPlanet = location.planet;
+            let planetIWantToKick = new Planet(location.planet.name, location.planet.mass, location.planet.rx, location.planet.ry, location.planet.vx, location.planet.vy, location.planet.fx, location.planet.fy);
             //set up virtual planet
-            kickPlanet(location.planet, location);
-            location.planet = newVirtualPlanet;
+            kickPlanet(planetIWantToKick, location);
             location.planet.virtualPlanet = true;
             location.planet.name += " virtual";
         }
 
+        kickPlanet(b, location);
     }
 }//end insert function
 
 function kickPlanet(b, location){
-    switch(b.quadLocation){
-        case 'nw':
-            if(location.nw === null){
-                location.nw = new BHTree(location.quad.NW()); //FIXME this is erring out
-                insert(b, location.nw);
-            }
-            break;
+    let testX = b.rx - location.quad.xmid;
+    let testY = b.ry - location.quad.ymid;
+    //This zeroes you xy plane so that you can figure out the quad by testing to see if this new zeroed location is positive or negative
 
-        case 'ne':
-            if(location.ne === null){
-                location.ne = new BHTree(location.quad.NE());
-            }
-            insert(b, location.ne);
-            break;
-
-        case 'sw':
-            if(location.sw === null){
-                location.sw = new BHTree(location.quad.SW());
-            }
-            insert(b, location.sw);
-
-            break;
-
-        case 'se':
-            if(location.se === null){
-                location.se = new BHTree(location.quad.SE());
-            }
-            insert(b, location.se);
-
-            break;
-
-        default: //put it in the south west quadrant
-            if(location.sw === null){
-                location.sw = new BHTree(location.quad.SW());
-            }
-            insert(b, location.sw);
-
-            break;
+    //now based on this new zeroed x and y, figure out where to insert b
+    if(testX >= 0 && testY >= 0){
+        if(location.ne === null){
+            location.ne = new BHTree(location.quad.NE());
+        }
+        insert(b, location.ne);
     }
+    else if(testX >= 0 && testY < 0 ){
+        if(location.se === null){
+            location.se = new BHTree(location.quad.SE());
+        }
+        insert(b, location.se);
+    }
+
+    else if(testX < 0 && testY >= 0){
+        if(location.nw === null){
+            location.nw = new BHTree(location.quad.NW());
+        }
+        insert(b, location.nw);
+    }
+    else{
+        if(location.sw === null){
+            location.sw = new BHTree(location.quad.SW());
+        }
+        insert(b, location.sw);
+    }
+
 }
 
 class Quad {
@@ -234,59 +213,45 @@ class BHTree {
 
          */
 
+        //northwest
         if(this.nw != null){
-            if(this.nw.isExternal()){
-                console.log(this.nw.planet.name + " (" + this.nw.planet.rx + "," + this.nw.planet.ry+ ")");
-            }
-            else{
+            if(this.nw.isExternal() === false){
                 this.debugPrint(this.nw);
-                console.log("generalized mass for nw quad--> " + this.planet.mass + " (" + this.planet.rx + "," + this.planet.ry + ")");
             }
+            console.log(this.nw.planet.name + " (" + this.nw.planet.rx + "," + this.nw.planet.ry+ ")");
         }
         else
             console.log("nw is null");
 
+        //northeast
         if(this.ne != null){
-            if(this.ne.isExternal()){
-                console.log(this.ne.planet.name + this.ne.planet.rx + "," + this.ne.planet.ry);
-            }
-            else{
+            if(this.ne.isExternal() === false){
                 this.debugPrint(this.ne);
-                console.log("generalized mass for ne quad--> " + this.planet.mass + " (" + this.planet.rx + "," + this.planet.ry + ")");
             }
+            console.log(this.ne.planet.name + " (" + this.ne.planet.rx + "," + this.ne.planet.ry+ ")");
         }
-        else{
+        else
             console.log("ne is null");
-        }
 
+        //southwest
         if(this.sw != null){
-            if(this.sw.isExternal()){
-                console.log(this.sw.planet.name + this.sw.planet.rx + "," + this.sw.planet.ry);
-            }
-            else{
+            if(this.sw.isExternal() === false){
                 this.debugPrint(this.sw);
-                console.log("generalized mass for sw quad--> " + this.planet.mass + " (" + this.planet.rx + "," + this.planet.ry + ")");
-
             }
+            console.log(this.sw.planet.name + " (" + this.sw.planet.rx + "," + this.sw.planet.ry+ ")");
         }
-        else{
+        else
             console.log("sw is null");
-        }
 
+        //southeast
         if(this.se != null){
-            if(this.se.isExternal()){
-                console.log(this.se.planet.name + this.se.planet.rx + "," + this.se.planet.ry);
-            }
-            else{
+            if(this.se.isExternal() === false){
                 this.debugPrint(this.se);
-                console.log("generalized mass for se quad--> " + this.planet.mass + " (" + this.planet.rx + "," + this.planet.ry + ")");
-
             }
+            console.log(this.se.planet.name + " (" + this.se.planet.rx + "," + this.se.planet.ry+ ")");
         }
-        else{
-            console.log("se is null");
-        }
-
+        else
+            console.log("nw is null");
         if(this.isExternal() && this.planet != null){
             console.log(this.planet.name);
         }
@@ -461,33 +426,53 @@ function updatePlanets(dt){
     }
 }
 let sun = new Planet("sun", SOLARMASS,3,3,0,0,0,0);
-let testQuad = new Quad(0,0,R);
+let testQuad = new Quad(0,0,20);
 let universe = new BHTree(testQuad);
-let planet0 = new Planet("planet 0", EARTHMASS, 5, 5, 0, 0, 0, 0);
+let planet0 = new Planet("planet 0", EARTHMASS, -5, -5, 0, 0, 0, 0);
 let planet1 = new Planet("planet 1", EARTHMASS, -5, 5, 0, 0, 0, 0);
-let planet2 = new Planet("planet 2", EARTHMASS, -5, -5, 0, 0, 0, 0);
+let planet2 = new Planet("planet 2", EARTHMASS, 5, 5, 0, 0, 0, 0);
 let planet3 = new Planet("planet 3", EARTHMASS, 5, -5, 0, 0, 0, 0);
 insert(sun, universe);
+console.log("sun inserted");
+console.log(universe);
+
 console.log("-----------------------------");
 insert(planet0, universe);
+console.log("p0 inserted");
+
+console.log(universe);
+
 console.log("-----------------------------");
 insert(planet1, universe);
+console.log("p1 inserted");
+
+console.log(universe);
+
 console.log("-----------------------------");
 
 insert(planet2, universe);
+console.log("p2 inserted");
+
+console.log(universe);
+
 console.log("-----------------------------");
 
 insert(planet3, universe);
+console.log("p3 inserted");
+
+console.log(universe);
+
 console.log("-----------------------------");
 
 let planet4 = new Planet("planet 4", EARTHMASS, 1, 1, 0, 0, 0, 0);
 insert(planet4, universe);
 console.log("planet 4 inserted");
-console.log("-----------------------------");
-
 console.log(universe);
 
+console.log("-----------------------------");
 
+
+universe.debugPrint(universe);
 
 
 
