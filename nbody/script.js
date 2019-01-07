@@ -39,27 +39,8 @@ class Planet {
 
     } //end constructor
 
-    //update the velocity and position of planets using time step dt
-    updateVelocity(dt){
-        //update velocities
-        this.vx += dt *this.fx / this.mass;
-        this.vy += dt *this.fy / this.mass;
 
-    };
 
-    updatePosition(dt){
-
-        //update position
-        this.rx += dt * this.vx;
-        this.ry += dt * this.vy;
-    }
-
-    //calculate the distance between two planets
-    distanceTo(otherPlanet){
-        this.dx = this.rx - otherPlanet.rx;
-        this.dy = this.ry - otherPlanet.ry;
-        return Math.sqrt(this.dx*this.dx + this.dy*this.dy);
-    };
 
     //set the force to 0 for the next iteration
     resetForce(){
@@ -68,17 +49,6 @@ class Planet {
     };
 
     //compute the net force acting between the body a and b, and add to the net force acting on a
-    addForce(otherPlanet){
-        this.dx = otherPlanet.rx - this.rx;
-        this.dy = otherPlanet.ry - this.ry;
-        //calculate the x and y distances
-        //local variables
-        let dist = this.distanceTo(otherPlanet);
-        let force = (G * this.mass * otherPlanet.mass) / (dist * dist); //GMm/r^2
-
-        this.fx += force * this.dx / dist;
-        this.fy =  force * this.dy / dist;
-    };
 
 
 };
@@ -116,6 +86,36 @@ function insert(b, location){
     }
 }//end insert function
 
+//calculate the distance between two planets
+function distanceTo(thisPlanet, otherPlanet){
+    let dx = thisPlanet.rx - otherPlanet.rx;
+    let dy = thisPlanet.ry - otherPlanet.ry;
+    return Math.sqrt(dx*dx + dy*dy);
+}
+function addForce(thisPlanet, otherPlanet){ //this should be inside the Planet class at least in Java, but it doesn't work here
+    //calculate the x and y distances
+    //local variables
+    let dist = distanceTo(thisPlanet, otherPlanet);
+    let force = (G * thisPlanet.mass * otherPlanet.mass) / (dist * dist); //GMm/r^2
+
+    let dx = otherPlanet.rx - thisPlanet.rx;
+    let dy = otherPlanet.ry - thisPlanet.ry;
+    thisPlanet.fx += force * dx / dist;
+    thisPlanet.fy =  force * dy / dist;
+}
+function updateVelocity(thisPlanet, dt){
+    //update velocities
+    thisPlanet.vx += dt *thisPlanet.fx / thisPlanet.mass;
+    thisPlanet.vy += dt *thisPlanet.fy / thisPlanet.mass;
+
+}
+
+function updatePosition(thisPlanet, dt){
+
+    //update position
+    thisPlanet.rx += dt * thisPlanet.vx;
+    thisPlanet.ry += dt * thisPlanet.vy;
+}
 function debugPrint(bhtree){
     /*
     for each child
@@ -272,12 +272,12 @@ class BHTree {
             add the force of the planet within here to b
              */
             if(this.planet !== b){
-                b.addForce(this.planet);
+                addForce(b, this.planet);
             }
         }
 
-        else if(this.quad.length / this.planet.distanceTo(b) < 2){
-            b.addForce(this.planet);
+        else if(this.quad.length / distanceTo(this.planet, b) < 2){
+            addForce(b, this.planet);
         }
 
         else {
@@ -328,11 +328,6 @@ function generateRandomPlanet(name){
     //these forces need to take into account everything else in the universe
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
-
-// let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
-let shouldRun = false; //TODO change this to true when the run button is clicked
-let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
-
 
 function init(){
 
@@ -433,16 +428,21 @@ let q = new Quad(0,0,R);
 let universe = new BHTree(q);
 let numPlanets = 3;
 let listOfPlanets = []; //an array of unknows size
-let sun = new Planet("sun", SOLARMASS,3,3,0,0,0,0);
+let shouldRun = false; //TODO change this to true when the run button is clicked
+let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
+// let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
 
-//initializing brute force
+// // initializing brute force
+// for(i = 0; i < numPlanets; i++){
+//     listOfPlanets.push(generateRandomPlanet("planet" + i));
+// }
+
+let sun = new Planet("sun", 6.67e12,3,3,0,0,0,0);
+let planet0 = new Planet("planet 0", 6.67e11, 5, 5, 10,10,0,0);
+listOfPlanets.push(planet0);
 listOfPlanets.push(sun);
-for(i = 0; i < numPlanets; i++){
-    listOfPlanets.push(generateRandomPlanet("planet" + i));
-}
 
 //run through brute force
-console.log(listOfPlanets);
 while(currentTime < stopTime){
     currentTime += dt; //move forward a little bit in time
     /*
@@ -452,8 +452,8 @@ while(currentTime < stopTime){
     for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
         for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
             if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
-                listOfPlanets[i].addForce(listOfPlanets[j]);
-                listOfPlanets[i].updateVelocity(dt);
+                addForce(listOfPlanets[i],listOfPlanets[j]);
+                updateVelocity(listOfPlanets[i], (dt));
             }
         } //added all forces for listOfPlanets[i]
     } //end for loop
@@ -461,20 +461,23 @@ while(currentTime < stopTime){
     //now that all forces and velocities have been updated, update position
     for(i = 0; i < listOfPlanets.length; i++){
         //for each planet, update it's position after dt time has passed
-        listOfPlanets[i].updatePosition(dt);
+        updatePosition(listOfPlanets[i], dt);
     }
+
+
     console.log(currentTime);
-    console.log(listOfPlanets);
+    console.log(sun);
+    console.log(planet0);
+    console.log('--');
 
 }
-
-
-debugPrint(universe);
 
 /*
 TODO
 make sure that planets are withing the quad (if the quad is size 20 you cant have a planet at 21
-force velocity and location variables are not changing 
+force velocity and location variables are not changing
+    if listOfPlanets actually isn't updating when its variables update (even though the variables are changing)
+    each time remove the item from the list, edit that new item, then add that new item back in
  */
 
 

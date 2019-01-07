@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e18ce75-ea0d-4296-927c-99075e996025" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -17,17 +16,27 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/n_body_project$index_html.dat" NAME="index.html Coverage Results" MODIFIED="1546739752322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="WipCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="n-body-project" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="474">
-              <caret line="114" column="123" selection-start-line="114" selection-start-column="123" selection-end-line="114" selection-end-column="123" />
+            <state relative-caret-position="-96">
+              <caret line="436" column="19" selection-start-line="436" selection-start-column="19" selection-end-line="436" selection-end-column="19" />
               <folding>
-                <element signature="n#Planet#0" />
+                <element signature="n#!!block;n#insert#0" />
+                <element signature="n#!!block;n#debugPrint#0" />
+                <element signature="n#!!block;n#kickPlanet#0" />
+                <element signature="n#Quad#0" />
+                <element signature="n#BHTree#0" />
                 <element signature="n#!!block;n#generateRandomPlanet#0" />
+                <element signature="n#!!block;n#init#0" />
                 <element signature="n#!!block;n#BFGuts#0" />
+                <element signature="n#!!block;n#updatePlanetsBF#0" />
+                <element signature="n#!!block;n#updatePlanets#0" />
               </folding>
             </state>
           </provider>
@@ -38,11 +47,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+            <state relative-caret-position="85">
+              <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -65,6 +74,10 @@
       <find>insert</find>
       <find>debugPrint</find>
       <find>add</find>
+      <find>distanceTo</find>
+      <find>velocity</find>
+      <find>addForce</find>
+      <find>console.log</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -91,8 +104,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -150,6 +163,7 @@
       <workItem from="1546584862496" duration="7464000" />
       <workItem from="1546646198209" duration="17754000" />
       <workItem from="1546797040772" duration="539000" />
+      <workItem from="1546883439974" duration="2329000" />
     </task>
     <task id="LOCAL-00001" summary="working to fix BH generalizations">
       <created>1546741402573</created>
@@ -169,7 +183,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42909000" />
+    <option name="totallyTimeSpent" value="45238000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -184,13 +198,13 @@
     <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12416357" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993464" visible="true" weight="0.12416357" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="2" sideWeight="0.5006536" side_tool="true" weight="0.12416357" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32955974" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.8691824" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.03773585" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32955974" />
@@ -215,47 +229,47 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>universe</expression-string>
+        <expression-string>planet0</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location.ne</expression-string>
+        <expression-string>sun</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location.planet</expression-string>
+        <expression-string>thisPlanet</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location</expression-string>
+        <expression-string>force</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>newVirtualPlanet</expression-string>
+        <expression-string>dist</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>b</expression-string>
+        <expression-string>thisPlanet.fy</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>(location.planet</expression-string>
+        <expression-string>thisPlanet.dy</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>newPlanet</expression-string>
+        <expression-string>listOfPlanets[j]</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>vy</expression-string>
+        <expression-string>listOfPlanets[i]</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -272,22 +286,29 @@
     <entry file="file://$PROJECT_DIR$/main.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/script.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="114" column="123" selection-start-line="114" selection-start-column="123" selection-end-line="114" selection-end-column="123" />
-          <folding>
-            <element signature="n#Planet#0" />
-            <element signature="n#!!block;n#generateRandomPlanet#0" />
-            <element signature="n#!!block;n#BFGuts#0" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+        <state relative-caret-position="-96">
+          <caret line="436" column="19" selection-start-line="436" selection-start-column="19" selection-end-line="436" selection-end-column="19" />
+          <folding>
+            <element signature="n#!!block;n#insert#0" />
+            <element signature="n#!!block;n#debugPrint#0" />
+            <element signature="n#!!block;n#kickPlanet#0" />
+            <element signature="n#Quad#0" />
+            <element signature="n#BHTree#0" />
+            <element signature="n#!!block;n#generateRandomPlanet#0" />
+            <element signature="n#!!block;n#init#0" />
+            <element signature="n#!!block;n#BFGuts#0" />
+            <element signature="n#!!block;n#updatePlanetsBF#0" />
+            <element signature="n#!!block;n#updatePlanets#0" />
+          </folding>
         </state>
       </provider>
     </entry>
