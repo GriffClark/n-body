@@ -24,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-96">
-              <caret line="436" column="19" selection-start-line="436" selection-start-column="19" selection-end-line="436" selection-end-column="19" />
+            <state relative-caret-position="372">
+              <caret line="95" column="73" selection-start-line="95" selection-start-column="73" selection-end-line="95" selection-end-column="73" />
               <folding>
                 <element signature="n#!!block;n#insert#0" />
                 <element signature="n#!!block;n#debugPrint#0" />
@@ -34,9 +34,7 @@
                 <element signature="n#BHTree#0" />
                 <element signature="n#!!block;n#generateRandomPlanet#0" />
                 <element signature="n#!!block;n#init#0" />
-                <element signature="n#!!block;n#BFGuts#0" />
-                <element signature="n#!!block;n#updatePlanetsBF#0" />
-                <element signature="n#!!block;n#updatePlanets#0" />
+                <element signature="e#13742#13750#0" />
               </folding>
             </state>
           </provider>
@@ -50,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+            <state relative-caret-position="68">
+              <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -163,7 +161,7 @@
       <workItem from="1546584862496" duration="7464000" />
       <workItem from="1546646198209" duration="17754000" />
       <workItem from="1546797040772" duration="539000" />
-      <workItem from="1546883439974" duration="2329000" />
+      <workItem from="1546883439974" duration="4883000" />
     </task>
     <task id="LOCAL-00001" summary="working to fix BH generalizations">
       <created>1546741402573</created>
@@ -183,7 +181,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45238000" />
+    <option name="totallyTimeSpent" value="47792000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -198,20 +196,20 @@
     <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993464" visible="true" weight="0.12416357" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49817517" visible="true" weight="0.12216532" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" sideWeight="0.5006536" side_tool="true" weight="0.12416357" />
+      <window_info id="Favorites" order="2" sideWeight="0.5018248" side_tool="true" weight="0.12216532" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32955974" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.8691824" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.03773585" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.29130965" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32955974" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49963424" weight="0.32925338" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32955974" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5003658" side_tool="true" weight="0.32925338" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -229,12 +227,32 @@
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>listOfPlanets</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>console</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>planet0</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
         <expression-string>sun</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>listOfPlanets[j]</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>listOfPlanets[i]</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -253,26 +271,6 @@
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>thisPlanet.fy</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>thisPlanet.dy</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>listOfPlanets[j]</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>listOfPlanets[i]</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
@@ -288,15 +286,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        <state relative-caret-position="68">
+          <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-96">
-          <caret line="436" column="19" selection-start-line="436" selection-start-column="19" selection-end-line="436" selection-end-column="19" />
+        <state relative-caret-position="372">
+          <caret line="95" column="73" selection-start-line="95" selection-start-column="73" selection-end-line="95" selection-end-column="73" />
           <folding>
             <element signature="n#!!block;n#insert#0" />
             <element signature="n#!!block;n#debugPrint#0" />
@@ -305,9 +303,7 @@
             <element signature="n#BHTree#0" />
             <element signature="n#!!block;n#generateRandomPlanet#0" />
             <element signature="n#!!block;n#init#0" />
-            <element signature="n#!!block;n#BFGuts#0" />
-            <element signature="n#!!block;n#updatePlanetsBF#0" />
-            <element signature="n#!!block;n#updatePlanets#0" />
+            <element signature="e#13742#13750#0" />
           </folding>
         </state>
       </provider>

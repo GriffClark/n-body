@@ -92,6 +92,11 @@ function distanceTo(thisPlanet, otherPlanet){
     let dy = thisPlanet.ry - otherPlanet.ry;
     return Math.sqrt(dx*dx + dy*dy);
 }
+
+function computeFV(thisPlanet, otherPlanet, ){ //just to simolufy my code
+    addForce(thisPlanet, otherPlanet);
+    updateVelocity(thisPlanet, dt);
+}
 function addForce(thisPlanet, otherPlanet){ //this should be inside the Planet class at least in Java, but it doesn't work here
     //calculate the x and y distances
     //local variables
@@ -340,70 +345,14 @@ function init(){
     }
 }
 
-function updatePlanetsBH() {
-    //TODO write me
-}
-
-function BFGuts(node, listOfPlanets){
-    if(node.nw != null){
-        if(node.nw.isExternal()){
-            listOfPlanets.push(node.nw.planet);
-        }
-        else{
-            BFGuts(node.nw, listOfPlanets);
-        }
-    }
-
-    if(node.ne != null){
-        if(node.ne.isExternal()){
-            listOfPlanets.push(node.ne.planet);
-        }
-        else{
-            BFGuts(node.ne, listOfPlanets);
-        }
-    }
-
-    if(node.sw != null){
-        if(node.sw.isExternal()){
-            listOfPlanets.push(node.sw.planet);
-        }
-        else{
-            BFGuts(node.sw, listOfPlanets);
-        }
-    }
-
-    if(node.se != null){
-        if(node.se.isExternal()){
-            listOfPlanets.push(node.planet);
-        }
-        else{
-            BFGuts(node.se, listOfPlanets);
-        }
-    }
 
 
-}
 
-function updatePlanetsBF(){
-    //preamble (stuff I only need to do once
-    /*
-    create an empty list of planets
-     */
-    let listOfPlanets = new Planet[numBodies];
-
-    //recursive function call
-    BFGuts(universe, listOfPlanets);
-    for(i = 0; i < listOfPlanets.length; i++){
-        console.log(listOfPlanets[i].name);
-    }
-
-}
-
-function updatePlanets(dt){
+function runSimulation(dt){
     switch(interactionMethod){
         case "BHTree":
             //TODO write interaction methods
-            updatePlanetsBH();
+            runBH();
             break;
 
         default: //this means that we are going to use the BruteForce method
@@ -416,7 +365,7 @@ function updatePlanets(dt){
             and if the planet you are looking at isn't yourself
             add the force of the new planet on you
              */
-           updatePlanetsBF();
+           runBF();
 
 
     }
@@ -443,33 +392,44 @@ listOfPlanets.push(planet0);
 listOfPlanets.push(sun);
 
 //run through brute force
-while(currentTime < stopTime){
-    currentTime += dt; //move forward a little bit in time
-    /*
-    listOfPlanets[i] is the planet you are computing the force on
-    listOfPlanets[j] is the planet that is acting on listOfPlanets[i]
-     */
-    for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
-        for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
-            if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
-                addForce(listOfPlanets[i],listOfPlanets[j]);
-                updateVelocity(listOfPlanets[i], (dt));
-            }
-        } //added all forces for listOfPlanets[i]
-    } //end for loop
+function runBF(){
+    while(currentTime < stopTime){
+        console.log(currentTime);
+        currentTime += dt; //move forward a little bit in time
+        /*
+        listOfPlanets[i] is the planet you are computing the force on
+        listOfPlanets[j] is the planet that is acting on listOfPlanets[i]
+         */
+        for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
+            for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
+                if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
+                    addForce(listOfPlanets[i],listOfPlanets[j]);
+                    updateVelocity(listOfPlanets[i], (dt));
+                }
+            } //added all forces for listOfPlanets[i]
+        } //end for loop
 
-    //now that all forces and velocities have been updated, update position
-    for(i = 0; i < listOfPlanets.length; i++){
-        //for each planet, update it's position after dt time has passed
-        updatePosition(listOfPlanets[i], dt);
+        //now that all forces and velocities have been updated, update position
+        for(i = 0; i < listOfPlanets.length; i++){
+            //for each planet, update it's position after dt time has passed
+            updatePosition(listOfPlanets[i], dt);
+            console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
+        }
+
+
+
+
     }
+}
+
+function runBH(){
+    /*
+    Stage 1:
+        depending on depth variable
+        if(you are at your target depth)
 
 
-    console.log(currentTime);
-    console.log(sun);
-    console.log(planet0);
-    console.log('--');
-
+     */
 }
 
 /*
