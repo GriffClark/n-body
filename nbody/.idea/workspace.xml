@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e18ce75-ea0d-4296-927c-99075e996025" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1751">
-              <caret line="256" column="61" selection-start-line="256" selection-start-column="61" selection-end-line="256" selection-end-column="61" />
+            <state relative-caret-position="483">
+              <caret line="427" lean-forward="true" selection-start-line="427" selection-end-line="427" />
               <folding>
                 <element signature="e#322#1373#0" />
                 <element signature="e#388#1133#0" />
@@ -43,6 +42,10 @@
                 <element signature="e#9445#10672#0" />
                 <element signature="e#10689#10944#0" />
                 <element signature="e#10975#11586#0" />
+                <element signature="e#13977#13985#0" />
+                <element signature="e#14395#15472#0" />
+                <element signature="e#14566#15472#0" />
+                <element signature="e#15650#16221#0" />
               </folding>
             </state>
           </provider>
@@ -172,7 +175,7 @@
       <workItem from="1546797040772" duration="539000" />
       <workItem from="1546883439974" duration="7370000" />
       <workItem from="1546959676647" duration="563000" />
-      <workItem from="1547060921763" duration="1810000" />
+      <workItem from="1547060921763" duration="2368000" />
     </task>
     <task id="LOCAL-00001" summary="working to fix BH generalizations">
       <created>1546741402573</created>
@@ -192,7 +195,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52652000" />
+    <option name="totallyTimeSpent" value="53210000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -294,8 +297,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1751">
-          <caret line="256" column="61" selection-start-line="256" selection-start-column="61" selection-end-line="256" selection-end-column="61" />
+        <state relative-caret-position="483">
+          <caret line="427" lean-forward="true" selection-start-line="427" selection-end-line="427" />
           <folding>
             <element signature="e#322#1373#0" />
             <element signature="e#388#1133#0" />
@@ -312,6 +315,10 @@
             <element signature="e#9445#10672#0" />
             <element signature="e#10689#10944#0" />
             <element signature="e#10975#11586#0" />
+            <element signature="e#13977#13985#0" />
+            <element signature="e#14395#15472#0" />
+            <element signature="e#14566#15472#0" />
+            <element signature="e#15650#16221#0" />
           </folding>
         </state>
       </provider>

@@ -395,37 +395,16 @@ listOfPlanets.push(planet0);
 listOfPlanets.push(sun);
 
 //run through brute force
-function runBF(){
-    while(currentTime < stopTime){
-        console.log(currentTime);
-        currentTime += dt; //move forward a little bit in time
-        /*
-        listOfPlanets[i] is the planet you are computing the force on
-        listOfPlanets[j] is the planet that is acting on listOfPlanets[i]
-         */
-        for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
-            for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
-                if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
-                    addForce(listOfPlanets[i],listOfPlanets[j]);
-                    updateVelocity(listOfPlanets[i], (dt));
-                }
-            } //added all forces for listOfPlanets[i]
-        } //end for loop
 
-        //now that all forces and velocities have been updated, update position
-        for(i = 0; i < listOfPlanets.length; i++){
-            //for each planet, update it's position after dt time has passed
-            updatePosition(listOfPlanets[i], dt);
-            console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
-        }
-
-
-
-
+function updateVelocityPosition(){
+    for(i = 0; i < listOfPlanets.length; i++){
+        //for each planet, update it's position after dt time has passed
+        updateVelocity(listOfPlanets[i], (dt));
+        updatePosition(listOfPlanets[i], dt);
+        console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
     }
 }
-
-function computeBH(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
+function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
     for(let q = 0; q<bhtree.children.length; q++){
         if(bhtree.children[q] != null){ //if the tree is not null
             let foundIt = false;
@@ -447,35 +426,42 @@ function computeBH(bhtree, planet, currentDepth ){ // currentDepth will be updat
 
 }
 
-function runBH(){
-    /*
-    Stage 1:
-        depending on depth variable
-        if(you are at your target depth)
+function runBF(){
+    while(currentTime < stopTime){
+        console.log(currentTime);
+        currentTime += dt; //move forward a little bit in time
+        /*
+        listOfPlanets[i] is the planet you are computing the force on
+        listOfPlanets[j] is the planet that is acting on listOfPlanets[i]
+         */
+        for(i = 0; i < listOfPlanets.length; i++){ //for each planet in the array
+            for(j = 0; j < listOfPlanets.length; j++){ //calculate the force of each other planet in the array
+                if(listOfPlanets[j] !== listOfPlanets[i]){ //this makes sure you don't try and calculate your force on yourself
+                    addForce(listOfPlanets[i],listOfPlanets[j]);
+                }
+            } //added all forces for listOfPlanets[i]
+        } //end for loop
 
-     */
+        //now that all forces and velocities have been updated, update position
+        updateVelocityPosition();
+    }
+}
+function runBH(){
+
 
     while(currentTime > stopTime){
         console.log(currentTime);
         currentTime += dt;
 
-        for(i = 0; i < listOfPlanets.length; i++){
-            //figure out where in the tree you are
-            myLocation = findLocation(listOfPlanets[i], universe);
-            //compute the other things that are children of the same node that you are
-            //compute all OTHER nodes (excluding yours) at the level specified by accuracy
+        for(let i = 0; i < listOfPlanets.length; i++){
+            computeBHForce(universe, listOfPlanets[i], 0);
         }
+
+        updateVelocityPosition();
+
     }
 
 }
-
-/*
-TODO
-make sure that planets are withing the quad (if the quad is size 20 you cant have a planet at 21
-force velocity and location variables are not changing
-    if listOfPlanets actually isn't updating when its variables update (even though the variables are changing)
-    each time remove the item from the list, edit that new item, then add that new item back in
- */
 
 
 
