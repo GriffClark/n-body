@@ -51,8 +51,7 @@ class Planet {
     //compute the net force acting between the body a and b, and add to the net force acting on a
 
 
-};
-//TODO planet 0 name did not add but planet 1 did
+}
 function insert(b, location){
 
     //if this node is empty, put this planet into it
@@ -77,11 +76,12 @@ function insert(b, location){
         else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
             let planetIWantToKick = new Planet(location.planet.name, location.planet.mass, location.planet.rx, location.planet.ry, location.planet.vx, location.planet.vy, location.planet.fx, location.planet.fy);
             //set up virtual planet
+            location.contains.push(planetIWantToKick); //TODO test if location.contains is working properly
             kickPlanet(planetIWantToKick, location);
             location.planet.virtualPlanet = true;
             location.planet.name += " virtual";
         }
-
+        location.contains.push(b);
         kickPlanet(b, location);
     }
 }//end insert function
@@ -93,7 +93,7 @@ function distanceTo(thisPlanet, otherPlanet){
     return Math.sqrt(dx*dx + dy*dy);
 }
 
-function computeFV(thisPlanet, otherPlanet, ){ //just to simolufy my code
+function computeFV(thisPlanet, otherPlanet, ){ //just to simplify my code
     addForce(thisPlanet, otherPlanet);
     updateVelocity(thisPlanet, dt);
 }
@@ -251,6 +251,10 @@ class BHTree {
         this.sw = null; //tree representing the southwest quadrant
         this.se = null; //tree representing the southeast quadrant
         //these values are set as null so that we can test if this is a leaf
+        this.contains = [];
+        this.contains.push(this.planet);
+
+        this.children = [this.nw, this.ne, this.sw, this.se];
     }
 
     isExternal(){
@@ -345,9 +349,6 @@ function init(){
     }
 }
 
-
-
-
 function runSimulation(dt){
     switch(interactionMethod){
         case "BHTree":
@@ -377,6 +378,8 @@ let q = new Quad(0,0,R);
 let universe = new BHTree(q);
 let numPlanets = 3;
 let listOfPlanets = []; //an array of unknows size
+let accuracy = 1; //where you want to make your generalizations (the higher this number the more accurate your simulation)
+let depth = 0; //how deep you are in the BHTree
 let shouldRun = false; //TODO change this to true when the run button is clicked
 let interactionMethod = "BruteForce"; //TODO make it so that you can choose whether you want BruteForce or BHTree
 // let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
@@ -422,14 +425,48 @@ function runBF(){
     }
 }
 
+function computeBH(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
+    for(let q = 0; q<bhtree.children.length; q++){
+        if(bhtree.children[q] != null){ //if the tree is not null
+            let foundIt = false;
+            for(let i = 0; i < bhtree.children[q].contains.length; i++){ //loop through all of the planets this bhtree contains
+                if(bhtree.children[q].contains[i].name === planet.name){ //if it contains your planet
+                    computeBH(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
+                    foundIt = true;
+                }
+            }
+            if(foundIt === false){ //if the planet was not in there
+                if(currentDepth < depth){ //if it does not contain your planet, but you need to go deeper before you make a generalization
+                    computeBH(bhtree.children[q], planet, currentDepth+1);
+                }
+            }
+            else
+                addForce(planet, bhtree.children[q].planet); //TODO test this
+        }
+    }
+
+}
+
 function runBH(){
     /*
     Stage 1:
         depending on depth variable
         if(you are at your target depth)
 
-
      */
+
+    while(currentTime > stopTime){
+        console.log(currentTime);
+        currentTime += dt;
+
+        for(i = 0; i < listOfPlanets.length; i++){
+            //figure out where in the tree you are
+            myLocation = findLocation(listOfPlanets[i], universe);
+            //compute the other things that are children of the same node that you are
+            //compute all OTHER nodes (excluding yours) at the level specified by accuracy
+        }
+    }
+
 }
 
 /*
