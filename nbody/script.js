@@ -135,22 +135,23 @@ function insert(b, location){
     }
 }//end insert function
 function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
-    for(let q = 0; q<bhtree.children.length; q++){
+    for(let q = 0; q < bhtree.children.length; q++){
         if(bhtree.children[q] != null){ //if the tree is not null
             let foundIt = false;
             for(let i = 0; i < bhtree.children[q].contains.length; i++){ //loop through all of the planets this bhtree contains
                 if(bhtree.children[q].contains[i].name === planet.name){ //if it contains your planet
-                    computeBH(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
+                    computeBHForce(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
                     foundIt = true;
                 }
             }
             if(foundIt === false){ //if the planet was not in there
                 if(currentDepth < depth){ //if it does not contain your planet, but you need to go deeper before you make a generalization
-                    computeBH(bhtree.children[q], planet, currentDepth+1);
+                    computeBHForce(bhtree.children[q], planet, currentDepth+1);
                 }
             }
             else
                 addForce(planet, bhtree.children[q].planet); //TODO test this
+
         }
     }
 
@@ -245,17 +246,18 @@ class BHTree {
     }
 
     isExternal(){
-        if (this.ne == null && this.nw == null && this.sw == null && this.se == null ){
-            return true;
-        }
-        else return false;
+        return this.ne == null && this.nw == null && this.sw == null && this.se == null;
     }
 
     merge(newPlanet){
         //TODO what to do if this.planet = null
-        this.planet.mass += newPlanet.mass;
-        this.planet.rx = ((this.planet.mass * this.planet.rx) + (newPlanet.mass * newPlanet.rx)) / (this.planet.mass + newPlanet.mass);
-        this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
+        if(this.planet != null){
+            this.planet.mass += newPlanet.mass;
+            this.planet.rx = ((this.planet.mass * this.planet.rx) + (newPlanet.mass * newPlanet.rx)) / (this.planet.mass + newPlanet.mass);
+            this.planet.ry = ((this.planet.mass * this.planet.ry) + (newPlanet.mass * newPlanet.ry)) / (this.planet.mass + newPlanet.mass);
+        }
+        else
+            console.log("unhandled error with trying to merge " + newPlanet + " with " + this);
     }
 
     //We have to populate the tree with planets. We start at the current tree and recursively travel through the branches
@@ -396,6 +398,7 @@ listOfPlanets.push(sun);
 
 //running the simulation
 function runBF(){
+    currentTime = 0;
     while(currentTime < stopTime){
         console.log(currentTime);
         currentTime += dt; //move forward a little bit in time
@@ -416,9 +419,9 @@ function runBF(){
     }
 }
 function runBH(){
+    currentTime = 0;
 
-
-    while(currentTime > stopTime){
+    while(currentTime < stopTime){
         console.log(currentTime);
         currentTime += dt;
 
@@ -431,24 +434,15 @@ function runBH(){
     }
 
 }
-function runSimulation(dt){
+function runSimulation(){
     switch(interactionMethod){
         case "BHTree":
-            //TODO write interaction methods
             runBH();
             break;
 
-        default: //this means that we are going to use the BruteForce method
-            /*
-            needs to loop through each of the bodies
-            for each planet, go though and update the force on it from each other planet
-
-            pick a planet
-            go through the tree for each planet
-            and if the planet you are looking at isn't yourself
-            add the force of the new planet on you
-             */
+        default:
            runBF();
+           break;
 
 
     }
