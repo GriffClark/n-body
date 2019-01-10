@@ -7,156 +7,6 @@ const SOLARMASS = 1.98892e30;
 const EARTHMASS = 5.972e24;
 const R = 2*1e18;
 
-
-//some variables we need
-let dt = 1; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
-let currentTime = 0;
-let stopTime = 5; //when do you want to run until?
-
-let numPlanets = 3; //how many planets in your simulation
-let listOfPlanets = []; //an array of unknows size
-let depth = 0; //how deep you are in the BHTree
-let shouldRun = false; //TODO change this to true when the run button is clicked
-let interactionMethod = "BruteForce";
-// let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
-
-//build the universe
-let q = new Quad(0,0,R);
-let universe = new BHTree(q); //this will serve as the initial bhtree
-
-//mathy computation things
-function circleV(rx, ry){
-    let hyp = Math.sqrt(rx*rx + ry*ry);
-    let numerator = (G *1e6 * SOLARMASS);
-    return Math.sqrt(numerator / hyp);
-}
-function updateVelocityPosition(){
-    for(i = 0; i < listOfPlanets.length; i++){
-        //for each planet, update it's position after dt time has passed
-        updateVelocity(listOfPlanets[i], (dt));
-        updatePosition(listOfPlanets[i], dt);
-        console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
-    }
-}
-function distanceTo(thisPlanet, otherPlanet){
-    let dx = thisPlanet.rx - otherPlanet.rx;
-    let dy = thisPlanet.ry - otherPlanet.ry;
-    return Math.sqrt(dx*dx + dy*dy);
-}
-function addForce(thisPlanet, otherPlanet){ //this should be inside the Planet class at least in Java, but it doesn't work here
-    //calculate the x and y distances
-    //local variables
-    let dist = distanceTo(thisPlanet, otherPlanet);
-    let force = (G * thisPlanet.mass * otherPlanet.mass) / (dist * dist); //GMm/r^2
-
-    let dx = otherPlanet.rx - thisPlanet.rx;
-    let dy = otherPlanet.ry - thisPlanet.ry;
-    thisPlanet.fx += force * dx / dist;
-    thisPlanet.fy =  force * dy / dist;
-}
-function updateVelocity(thisPlanet, dt){
-    //update velocities
-    thisPlanet.vx += dt *thisPlanet.fx / thisPlanet.mass;
-    thisPlanet.vy += dt *thisPlanet.fy / thisPlanet.mass;
-
-}
-function updatePosition(thisPlanet, dt){
-
-    //update position
-    thisPlanet.rx += dt * thisPlanet.vx;
-    thisPlanet.ry += dt * thisPlanet.vy;
-}
-
-//tree manipulation and interaction
-function kickPlanet(b, location){
-    let testX = b.rx - location.quad.xmid;
-    let testY = b.ry - location.quad.ymid;
-    //This zeroes you xy plane so that you can figure out the quad by testing to see if this new zeroed location is positive or negative
-
-    //now based on this new zeroed x and y, figure out where to insert b
-    if(testX >= 0 && testY >= 0){
-        if(location.ne === null){
-            location.ne = new BHTree(location.quad.NE());
-        }
-        insert(b, location.ne);
-    }
-    else if(testX >= 0 && testY < 0 ){
-        if(location.se === null){
-            location.se = new BHTree(location.quad.SE());
-        }
-        insert(b, location.se);
-    }
-
-    else if(testX < 0 && testY >= 0){
-        if(location.nw === null){
-            location.nw = new BHTree(location.quad.NW());
-        }
-        insert(b, location.nw);
-    }
-    else{
-        if(location.sw === null){
-            location.sw = new BHTree(location.quad.SW());
-        }
-        insert(b, location.sw);
-    }
-
-}
-function insert(b, location){
-
-    //if this node is empty, put this planet into it
-    if(location.planet == null){
-        location.planet = b;
-    }
-    /*
-    if a body already exists here, but this node IS NOT external
-    combine the two bodies and figure out which quadrant of the tree it should be in
-    then, update the tree
-     */
-
-    else{ //there was already a planet there
-        if(location.planet.virtualPlanet === true){ //if you already have a virtual planet, then you just need to add this planet and kick it
-            /*
-        if you have a virtual planet, you are not an external node
-        figure out where the planet belongs and put the planet there
-         */
-            location.planet.name += " + " + b.name;
-            location.merge(b);
-        }
-        else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
-            let planetIWantToKick = new Planet(location.planet.name, location.planet.mass, location.planet.rx, location.planet.ry, location.planet.vx, location.planet.vy, location.planet.fx, location.planet.fy);
-            //set up virtual planet
-            location.contains.push(planetIWantToKick); //TODO test if location.contains is working properly
-            kickPlanet(planetIWantToKick, location);
-            location.planet.virtualPlanet = true;
-            location.planet.name += " virtual";
-        }
-        location.contains.push(b);
-        kickPlanet(b, location);
-    }
-}//end insert function
-function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
-    for(let q = 0; q < bhtree.children.length; q++){
-        if(bhtree.children[q] != null){ //if the tree is not null
-            let foundIt = false;
-            for(let i = 0; i < bhtree.children[q].contains.length; i++){ //loop through all of the planets this bhtree contains
-                if(bhtree.children[q].contains[i].name === planet.name){ //if it contains your planet
-                    computeBHForce(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
-                    foundIt = true;
-                }
-            }
-            if(foundIt === false){ //if the planet was not in there
-                if(currentDepth < depth){ //if it does not contain your planet, but you need to go deeper before you make a generalization
-                    computeBHForce(bhtree.children[q], planet, currentDepth+1);
-                }
-            }
-            else
-                addForce(planet, bhtree.children[q].planet); //TODO test this
-
-        }
-    }
-
-}
-
 // classes we need
 class Planet {
 
@@ -262,30 +112,158 @@ class BHTree {
 
     //We have to populate the tree with planets. We start at the current tree and recursively travel through the branches
 
+updateInsides(){
+    this.children = [this.nw, this.ne, this.sw, this.se];
+}
+} // BHTree is the tree with four children that we store our planets in
 
-    updateForce(b){ //FIXME do not understand what this method is doing
-        if(this.isExternal()){
+//some variables we need
+let dt = 1; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
+let currentTime = 0;
+let stopTime = 2; //when do you want to run until?
+let numPlanets = 3; //how many planets in your simulation
+let listOfPlanets = []; //an array of unknows size
+let depth = 0; //how deep you are in the BHTree
+let shouldRun = false; //TODO change this to true when the run button is clicked
+// let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
+
+//build the universe
+let q = new Quad(0,0,R);
+let universe = new BHTree(q); //this will serve as the initial bhtree
+
+//mathy computation things
+function circleV(rx, ry){
+    let hyp = Math.sqrt(rx*rx + ry*ry);
+    let numerator = (G *1e6 * SOLARMASS);
+    return Math.sqrt(numerator / hyp);
+}
+function updateVelocityPosition(){
+    for(i = 0; i < listOfPlanets.length; i++){
+        //for each planet, update it's position after dt time has passed
+        updateVelocity(listOfPlanets[i], (dt));
+        updatePosition(listOfPlanets[i], dt);
+        console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
+    }
+}
+function distanceTo(thisPlanet, otherPlanet){
+    let dx = thisPlanet.rx - otherPlanet.rx;
+    let dy = thisPlanet.ry - otherPlanet.ry;
+    return Math.sqrt(dx*dx + dy*dy);
+}
+function addForce(thisPlanet, otherPlanet){ //this should be inside the Planet class at least in Java, but it doesn't work here
+    //calculate the x and y distances
+    //local variables
+    let dist = distanceTo(thisPlanet, otherPlanet);
+    let force = (G * thisPlanet.mass * otherPlanet.mass) / (dist * dist); //GMm/r^2
+
+    let dx = otherPlanet.rx - thisPlanet.rx;
+    let dy = otherPlanet.ry - thisPlanet.ry;
+    thisPlanet.fx += force * dx / dist;
+    thisPlanet.fy =  force * dy / dist;
+}
+function updateVelocity(thisPlanet, dt){
+    //update velocities
+    thisPlanet.vx += dt *thisPlanet.fx / thisPlanet.mass;
+    thisPlanet.vy += dt *thisPlanet.fy / thisPlanet.mass;
+
+}
+function updatePosition(thisPlanet, dt){
+
+    //update position
+    thisPlanet.rx += dt * thisPlanet.vx;
+    thisPlanet.ry += dt * thisPlanet.vy;
+}
+
+//tree manipulation and interaction
+function kickPlanet(b, location){
+    let testX = b.rx - location.quad.xmid;
+    let testY = b.ry - location.quad.ymid;
+    //This zeroes you xy plane so that you can figure out the quad by testing to see if this new zeroed location is positive or negative
+
+    //now based on this new zeroed x and y, figure out where to insert b
+    if(testX >= 0 && testY >= 0){
+        if(location.ne === null){
+            location.ne = new BHTree(location.quad.NE());
+        }
+        insert(b, location.ne);
+    }
+    else if(testX >= 0 && testY < 0 ){
+        if(location.se === null){
+            location.se = new BHTree(location.quad.SE());
+        }
+        insert(b, location.se);
+    }
+
+    else if(testX < 0 && testY >= 0){
+        if(location.nw === null){
+            location.nw = new BHTree(location.quad.NW());
+        }
+        insert(b, location.nw);
+    }
+    else{
+        if(location.sw === null){
+            location.sw = new BHTree(location.quad.SW());
+        }
+        insert(b, location.sw);
+    }
+    location.updateInsides(); //this will just fix the contains list
+
+}
+function insert(b, location){
+
+    //if this node is empty, put this planet into it
+    if(location.planet == null){
+        location.planet = b;
+    }
+    /*
+    if a body already exists here, but this node IS NOT external
+    combine the two bodies and figure out which quadrant of the tree it should be in
+    then, update the tree
+     */
+
+    else{ //there was already a planet there
+        if(location.planet.virtualPlanet === true){ //if you already have a virtual planet, then you just need to add this planet and kick it
             /*
-            if you are external and your planet is no the same as this planet
-            add the force of the planet within here to b
-             */
-            if(this.planet !== b){
-                addForce(b, this.planet);
+        if you have a virtual planet, you are not an external node
+        figure out where the planet belongs and put the planet there
+         */
+            location.planet.name += " + " + b.name;
+            location.merge(b);
+        }
+        else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
+            let planetIWantToKick = new Planet(location.planet.name, location.planet.mass, location.planet.rx, location.planet.ry, location.planet.vx, location.planet.vy, location.planet.fx, location.planet.fy);
+            //set up virtual planet
+            location.contains.push(planetIWantToKick); //TODO test if location.contains is working properly
+            kickPlanet(planetIWantToKick, location);
+            location.planet.virtualPlanet = true;
+            location.planet.name += " virtual";
+        }
+        location.contains.push(b);
+        kickPlanet(b, location);
+    }
+}//end insert function
+function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
+    for(let q = 0; q < bhtree.children.length; q++){
+        if(bhtree.children[q] != null){ //if the tree is not null
+            let foundIt = false;
+            for(let i = 0; i < bhtree.children[q].contains.length; i++){ //loop through all of the planets this bhtree contains
+                if(bhtree.children.name != null && bhtree.children[q].contains[i].name === planet.name){ //if it contains your planet
+                    computeBHForce(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
+                    foundIt = true;
+                }
             }
-        }
+            if(foundIt === false){ //if the planet was not in there
+                if(currentDepth < depth){ //if it does not contain your planet, but you need to go deeper before you make a generalization
+                    computeBHForce(bhtree.children[q], planet, currentDepth+1);
+                }
+            }
+            else
+                addForce(planet, bhtree.children[q].planet); //TODO test this
 
-        else if(this.quad.length / distanceTo(this.planet, b) < 2){
-            addForce(b, this.planet);
-        }
-
-        else {
-            if (this.nw!=null) this.nw.updateForce(b);
-            if (this.sw!=null) this.sw.updateForce(b);
-            if (this.se!=null) this.se.updateForce(b);
-            if (this.ne!=null) this.ne.updateForce(b);
         }
     }
-} // BHTree is the tree with four children that we store our planets in
+
+}
 
 //debug functions
 function debugPrint(bhtree){
@@ -391,10 +369,12 @@ function generateRandomPlanet(name){
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
 
-let sun = new Planet("sun", 6.67e12,3,3,0,0,0,0);
-let planet0 = new Planet("planet 0", 6.67e11, 5, 5, 10,10,0,0);
+let planet1 = new Planet("planet1", 6.67e12,2,2,0,0,0,0);
+let planet0 = new Planet("planet 0", 6.67e11, -2, -2, 10,10,0,0);
+insert(planet1, universe);
+insert(planet0, universe);
 listOfPlanets.push(planet0);
-listOfPlanets.push(sun);
+listOfPlanets.push(planet1);
 
 //running the simulation
 function runBF(){
@@ -432,6 +412,12 @@ function runBH(){
         updateVelocityPosition();
 
     }
+    //restructure bhtree
+    universe = null;
+    for(let i = 0; i < listOfPlanets.length; i++){
+        insert(listOfPlanets[i], universe);
+    }
+
 
 }
 function runSimulation(){
@@ -447,8 +433,10 @@ function runSimulation(){
 
     }
 }
+let interactionMethod = "BHTree";
 
-
+runSimulation();
+console.log(universe);
 
 
 

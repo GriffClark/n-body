@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e18ce75-ea0d-4296-927c-99075e996025" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -24,27 +25,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="145" column="13" lean-forward="true" selection-start-line="145" selection-start-column="13" selection-end-line="145" selection-end-column="13" />
+            <state relative-caret-position="134">
+              <caret line="248" column="68" selection-start-line="248" selection-start-column="68" selection-end-line="248" selection-end-column="68" />
               <folding>
-                <element signature="e#196#320#0" />
-                <element signature="e#1157#1487#0" />
-                <element signature="e#1319#1449#0" />
-                <element signature="e#1492#1946#0" />
-                <element signature="e#1986#2130#0" />
-                <element signature="e#2170#2278#0" />
-                <element signature="e#2184#3167#0" />
-                <element signature="e#3196#4671#0" />
-                <element signature="e#322#1373#0" />
-                <element signature="e#388#1133#0" />
-                <element signature="e#5899#6832#0" />
-                <element signature="e#6833#8927#0" />
-                <element signature="e#8205#8925#0" />
-                <element signature="e#3987#5433#0" />
-                <element signature="e#10635#10890#0" />
-                <element signature="e#10655#11882#0" />
-                <element signature="e#13726#14632#0" />
-                <marker date="1547065214581" expanded="true" signature="136:153" ph="..." />
+                <element signature="e#174#1225#0" />
+                <element signature="e#1265#2198#0" />
+                <element signature="e#998#1122#0" />
+                <element signature="e#1531#1661#0" />
+                <element signature="e#1704#2158#0" />
+                <element signature="e#1706#1789#0" />
+                <element signature="e#10619#12065#0" />
+                <element signature="e#12110#12365#0" />
+                <element signature="e#12401#13628#0" />
+                <element signature="e#13840#14767#0" />
+                <marker date="1547144563149" expanded="true" signature="136:153" ph="..." />
               </folding>
             </state>
           </provider>
@@ -59,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+              <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -87,6 +81,7 @@
       <find>addForce</find>
       <find>console.log</find>
       <find>inter</find>
+      <find>universe</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -174,7 +169,9 @@
       <workItem from="1546797040772" duration="539000" />
       <workItem from="1546883439974" duration="7370000" />
       <workItem from="1546959676647" duration="563000" />
-      <workItem from="1547060921763" duration="3413000" />
+      <workItem from="1547060921763" duration="4011000" />
+      <workItem from="1547072958540" duration="65000" />
+      <workItem from="1547142825574" duration="3025000" />
     </task>
     <task id="LOCAL-00001" summary="working to fix BH generalizations">
       <created>1546741402573</created>
@@ -194,7 +191,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54255000" />
+    <option name="totallyTimeSpent" value="57943000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -207,15 +204,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49817517" visible="true" weight="0.08046818" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49817517" visible="true" weight="0.053401608" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5018248" side_tool="true" weight="0.12216532" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32955974" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.8691824" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.2905983" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40881273" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32955974" />
@@ -237,10 +233,49 @@
     <MESSAGE value="debugging bh tree construction" />
     <option name="LAST_COMMIT_MESSAGE" value="debugging bh tree construction" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/script.js</url>
+          <line>248</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="debuggerHistoryManager">
+    <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>bhtree</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>bhtree.children</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>bhtree.children</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>bhtree</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>listOfPlanets</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>listOfPlanets[i]</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -265,22 +300,7 @@
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>listOfPlanets[i]</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
         <expression-string>thisPlanet</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>force</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>dist</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -294,40 +314,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="145" column="13" lean-forward="true" selection-start-line="145" selection-start-column="13" selection-end-line="145" selection-end-column="13" />
-          <folding>
-            <element signature="e#196#320#0" />
-            <element signature="e#1157#1487#0" />
-            <element signature="e#1319#1449#0" />
-            <element signature="e#1492#1946#0" />
-            <element signature="e#1986#2130#0" />
-            <element signature="e#2170#2278#0" />
-            <element signature="e#2184#3167#0" />
-            <element signature="e#3196#4671#0" />
-            <element signature="e#322#1373#0" />
-            <element signature="e#388#1133#0" />
-            <element signature="e#5899#6832#0" />
-            <element signature="e#6833#8927#0" />
-            <element signature="e#8205#8925#0" />
-            <element signature="e#3987#5433#0" />
-            <element signature="e#10635#10890#0" />
-            <element signature="e#10655#11882#0" />
-            <element signature="e#13726#14632#0" />
-            <marker date="1547065214581" expanded="true" signature="136:153" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="32" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+          <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="134">
+          <caret line="248" column="68" selection-start-line="248" selection-start-column="68" selection-end-line="248" selection-end-column="68" />
+          <folding>
+            <element signature="e#174#1225#0" />
+            <element signature="e#1265#2198#0" />
+            <element signature="e#998#1122#0" />
+            <element signature="e#1531#1661#0" />
+            <element signature="e#1704#2158#0" />
+            <element signature="e#1706#1789#0" />
+            <element signature="e#10619#12065#0" />
+            <element signature="e#12110#12365#0" />
+            <element signature="e#12401#13628#0" />
+            <element signature="e#13840#14767#0" />
+            <marker date="1547144563149" expanded="true" signature="136:153" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
