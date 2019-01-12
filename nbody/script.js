@@ -123,7 +123,7 @@ let currentTime = 0;
 let stopTime = 2; //when do you want to run until?
 let numPlanets = 3; //how many planets in your simulation
 let listOfPlanets = []; //an array of unknows size
-let depth = 0; //how deep you are in the BHTree
+let depth = 2; //how deep you want to go
 let shouldRun = false; //TODO change this to true when the run button is clicked
 // let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
 
@@ -212,7 +212,7 @@ function kickPlanet(b, location){
 function insert(b, location){
 
     //if this node is empty, put this planet into it
-    if(location.planet == null){
+    if(location.planet === null){
         location.planet = b;
     }
     /*
@@ -236,7 +236,6 @@ function insert(b, location){
             location.contains.push(planetIWantToKick); //TODO test if location.contains is working properly
             kickPlanet(planetIWantToKick, location);
             location.planet.virtualPlanet = true;
-            location.planet.name += " virtual";
         }
         location.contains.push(b);
         kickPlanet(b, location);
@@ -258,9 +257,12 @@ function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be 
                 }
             }
             else
-                addForce(planet, bhtree.children[q].planet); //TODO test this
-
+                addForce(planet, bhtree.children[q]); break;
         }
+    }
+
+    if(bhtree.isExternal() && currentDepth < depth && bhtree.planet.name !== planet.name){
+        addForce(planet, bhtree.planet);
     }
 
 }
@@ -323,7 +325,7 @@ function debugPrint(bhtree){
 function init(){
 
 
-    for(i = 0; i < numBodies; i++){
+    for(let i = 0; i < numBodies; i++){
         let name = "planet " + i;
         let newPlanet = generateRandomPlanet(name);
         console.log(newPlanet.name + " (" + newPlanet.rx + "," + newPlanet.ry + ")");
@@ -369,10 +371,13 @@ function generateRandomPlanet(name){
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
 
-let planet1 = new Planet("planet1", 6.67e12,2,2,0,0,0,0);
-let planet0 = new Planet("planet 0", 6.67e11, -2, -2, 10,10,0,0);
+let planet1 = new Planet("planet1", 6,2,2,0,0,0,0);
+let planet0 = new Planet("planet 0", 6., -2, -2, 10,10,0,0);
+let planet2 = new Planet("planet 2", 6, -4, -4, 10,10,0,0);
+
 insert(planet1, universe);
 insert(planet0, universe);
+insert(planet2, universe);
 listOfPlanets.push(planet0);
 listOfPlanets.push(planet1);
 
@@ -413,10 +418,13 @@ function runBH(){
 
     }
     //restructure bhtree
-    universe = null;
-    for(let i = 0; i < listOfPlanets.length; i++){
-        insert(listOfPlanets[i], universe);
-    }
+    universe = new BHTree(q); //create a new empty bhtree
+    insert(planet1, universe);
+    insert(planet0, universe);
+    insert(planet2, universe);
+    // for(let i = 0; i < listOfPlanets.length; i++){
+    //     insert(listOfPlanets[i], universe);
+    // }
 
 
 }
