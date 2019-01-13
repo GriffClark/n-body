@@ -1,11 +1,10 @@
 
-console.log("found js file");
 
 //some constants we need
 const G = 6.673e-11;
 const SOLARMASS = 1.98892e30;
 const EARTHMASS = 5.972e24;
-const R = 2*1e18;
+let R = 20;
 
 // classes we need
 class Planet {
@@ -142,7 +141,6 @@ function updateVelocityPosition(){
         //for each planet, update it's position after dt time has passed
         updateVelocity(listOfPlanets[i], (dt));
         updatePosition(listOfPlanets[i], dt);
-        console.log(listOfPlanets[i].name + " (" + listOfPlanets[i].rx + "," + listOfPlanets[i].ry + ")");
     }
 }
 function distanceTo(thisPlanet, otherPlanet){
@@ -214,6 +212,7 @@ function insert(b, location){
     //if this node is empty, put this planet into it
     if(location.planet === null){
         location.planet = b;
+        location.contains.push(b);
     }
     /*
     if a body already exists here, but this node IS NOT external
@@ -227,13 +226,11 @@ function insert(b, location){
         if you have a virtual planet, you are not an external node
         figure out where the planet belongs and put the planet there
          */
-            location.planet.name += " + " + b.name;
             location.merge(b);
         }
         else{ //if you do not already have a virtual planet, make a new one, kick your old planet, and kick this new planet
             let planetIWantToKick = new Planet(location.planet.name, location.planet.mass, location.planet.rx, location.planet.ry, location.planet.vx, location.planet.vy, location.planet.fx, location.planet.fy);
             //set up virtual planet
-            location.contains.push(planetIWantToKick); //TODO test if location.contains is working properly
             kickPlanet(planetIWantToKick, location);
             location.planet.virtualPlanet = true;
         }
@@ -371,18 +368,16 @@ function generateRandomPlanet(name){
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
 
-let planet1 = new Planet("planet1", 6,2,2,0,0,0,0);
-let planet0 = new Planet("planet 0", 6., -2, -2, 10,10,0,0);
-let planet2 = new Planet("planet 2", 6, -4, -4, 10,10,0,0);
+let planet1 = new Planet("planet 1", EARTHMASS,2e3, 2e3, 0,0,0,0);
+let planet0 = new Planet("planet 0", EARTHMASS,-2e3,2e3, 0,0,0,0);
+let planet2 = new Planet("planet 2", EARTHMASS,-4e3,-4e3,0,0,0,0);
 
-insert(planet1, universe);
-insert(planet0, universe);
-insert(planet2, universe);
-listOfPlanets.push(planet0);
-listOfPlanets.push(planet1);
+//FIXME if somethings moves outside the universe
 
 //running the simulation
 function runBF(){
+  //TODO init planets
+
     currentTime = 0;
     while(currentTime < stopTime){
         console.log(currentTime);
@@ -406,8 +401,28 @@ function runBF(){
 function runBH(){
     currentTime = 0;
 
+
     while(currentTime < stopTime){
+        for(let i = 0; i < listOfPlanets.length; i++){
+            if(listOfPlanets[i].rx > R){
+                R = listOfPlanets[i].rx;
+            }
+        } //check x values to increase R
+        for(let i = 0; i < listOfPlanets.length; i++){
+            if(listOfPlanets[i].ry > R){
+                R = listOfPlanets[i].ry;
+            }
+        } //check Y values to increase R
+        universe = new BHTree(q); //create a new empty bhtree
+        insert(planet1, universe);
+        insert(planet0, universe);
+        insert(planet2, universe);
+        listOfPlanets = [];
+        listOfPlanets.push(planet0);
+        listOfPlanets.push(planet1);
+        listOfPlanets.push(planet2);
         console.log(currentTime);
+        console.log(universe);
         currentTime += dt;
 
         for(let i = 0; i < listOfPlanets.length; i++){
@@ -415,16 +430,14 @@ function runBH(){
         }
 
         updateVelocityPosition();
+        //restructure bhtree
+
+        // for(let i = 0; i < listOfPlanets.length; i++){
+        //     insert(listOfPlanets[i], universe);
+        // }
 
     }
-    //restructure bhtree
-    universe = new BHTree(q); //create a new empty bhtree
-    insert(planet1, universe);
-    insert(planet0, universe);
-    insert(planet2, universe);
-    // for(let i = 0; i < listOfPlanets.length; i++){
-    //     insert(listOfPlanets[i], universe);
-    // }
+
 
 
 }
@@ -444,7 +457,6 @@ function runSimulation(){
 let interactionMethod = "BHTree";
 
 runSimulation();
-console.log(universe);
 
 
 

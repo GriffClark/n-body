@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nbody/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+            <state relative-caret-position="119">
+              <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -25,17 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="476" column="55" selection-start-line="476" selection-start-column="55" selection-end-line="476" selection-end-column="55" />
-              <folding>
-                <element signature="e#2394#3727#0" />
-                <element signature="e#3770#5362#0" />
-                <element signature="e#3782#4765#0" />
-                <element signature="e#4767#5700#0" />
-                <element signature="e#5701#9290#0" />
-                <element signature="e#12196#12508#0" />
-                <element signature="e#12536#13167#0" />
-              </folding>
+            <state relative-caret-position="13">
+              <caret line="416" selection-start-line="416" selection-end-line="416" />
             </state>
           </provider>
         </entry>
@@ -48,6 +39,9 @@
       <find>BFGuts</find>
       <find>addForce</find>
       <find>velocity</find>
+      <find>console</find>
+      <find>name</find>
+      <find>r</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -71,7 +65,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -88,6 +81,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -135,17 +129,17 @@
       <updated>1546798246668</updated>
       <workItem from="1546798248007" duration="4017000" />
       <workItem from="1546802316707" duration="3921000" />
+      <workItem from="1547326382658" duration="4728000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7938000" />
+    <option name="totallyTimeSpent" value="12666000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -167,50 +161,66 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="JavascriptDebugType">
+        <watch expression="universe" language="JavaScript" />
+        <watch expression="universe" language="JavaScript" />
+      </configuration>
+    </watches-manager>
+  </component>
   <component name="debuggerHistoryManager">
+    <expressions id="evaluateCodeFragment">
+      <expression>
+        <expression-string>universe
+planetIWantToKick</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>CODE_FRAGMENT</evaluation-mode>
+      </expression>
+    </expressions>
     <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>this.ne</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>this</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>this.nw</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
       <expression>
         <expression-string>universe</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>b.quadLocation</expression-string>
+        <expression-string>planetIWantToKick</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location.ne</expression-string>
+        <expression-string>univers4e</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>b</expression-string>
+        <expression-string>dt</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location.planet</expression-string>
+        <expression-string>dt\</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>universe.quad</expression-string>
+        <expression-string>planet2</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>listOfPlanets</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>bhtree.children[q]</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>planet</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -219,24 +229,15 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/nbody/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        <state relative-caret-position="119">
+          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="476" column="55" selection-start-line="476" selection-start-column="55" selection-end-line="476" selection-end-column="55" />
-          <folding>
-            <element signature="e#2394#3727#0" />
-            <element signature="e#3770#5362#0" />
-            <element signature="e#3782#4765#0" />
-            <element signature="e#4767#5700#0" />
-            <element signature="e#5701#9290#0" />
-            <element signature="e#12196#12508#0" />
-            <element signature="e#12536#13167#0" />
-          </folding>
+        <state relative-caret-position="13">
+          <caret line="416" selection-start-line="416" selection-end-line="416" />
         </state>
       </provider>
     </entry>
