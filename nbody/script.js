@@ -117,8 +117,8 @@ updateInsides(){
 //some variables we need
 let dt = 1; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
 let currentTime = 0;
-let stopTime = 2; //when do you want to run until?
-let numBodies = 2; //how many planets in your simulation
+let stopTime = 5; //when do you want to run until?
+let numBodies = 20; //how many planets in your simulation
 let listOfPlanets = []; //an array of unknows size
 let depth = 2; //how deep you want to go
 let maxBuildDepth = 5;
@@ -157,11 +157,13 @@ function addForce(thisPlanet, otherPlanet){ //this should be inside the Planet c
     let dy = otherPlanet.ry - thisPlanet.ry;
     thisPlanet.fx += force * dx / dist;
     thisPlanet.fy =  force * dy / dist;
+
 }
 function updateVelocity(thisPlanet, dt){
     //update velocities
     thisPlanet.vx += dt *thisPlanet.fx / thisPlanet.mass;
-     thisPlanet.vy += dt *thisPlanet.fy / thisPlanet.mass;
+    thisPlanet.vy += dt *thisPlanet.fy / thisPlanet.mass;
+
 
 }
 function updatePosition(thisPlanet, dt){
@@ -268,7 +270,7 @@ function computeBHForce(bhtree, planet, currentDepth) {
                     if (currentDepth < depth && bhtree.children[m] !== null) /*you need to go deeper*/{
                         computeBHForce(bhtree.children[m], planet, currentDepth + 1);
                     } else
-                        if(bhtree.planet.rx !== planet.rx){ //making sure you aren't trying to compute force on yourself 
+                        if(bhtree.planet.rx !== planet.rx){ //making sure you aren't trying to compute force on yourself
                             /*you are at your depth*/ addForce(planet, bhtree.planet);
                         }
                 }
@@ -339,6 +341,10 @@ function init(){
     for(let i = 0; i < numBodies; i++){
         let name = "planet " + i;
         let newPlanet = generateRandomPlanet(name);
+        newPlanet.fx = 0;
+        newPlanet.fy = 0;
+        newPlanet.vx = 0;
+        newPlanet.vy = 0;
         console.log(newPlanet.name + " (" + newPlanet.rx + "," + newPlanet.ry + ")");
         listOfPlanets.push(newPlanet);
     }
@@ -395,11 +401,9 @@ function runBF(){
 }
 function runBH(){
     currentTime = 0;
-
+    R = 1; //this way R will eventually be equal to the greatest value among planets
 
     while(currentTime < stopTime){
-        console.log(listOfPlanets);
-        R = 1; //this way R will eventually be equal to the greatest value among planets
         let runLength = listOfPlanets.length;
         for(let i = 0; i < runLength; i++){
             if(Math.abs(listOfPlanets[i].rx) > R){
@@ -423,6 +427,7 @@ function runBH(){
         }
 
         updateVelocityPosition();
+        console.log(universe);
         //restructure bhtree
 
         // for(let i = 0; i < listOfPlanets.length; i++){
@@ -452,7 +457,9 @@ function runSimulation(){
 
 let interactionMethod = "BHTree";
 runSimulation();
+console.log("------------");
 console.log(listOfPlanets);
+
 
 // interactionMethod = "BruteForce";
 // currentTime = 0;
