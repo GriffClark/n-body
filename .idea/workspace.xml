@@ -28,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="265" column="52" selection-start-line="265" selection-start-column="52" selection-end-line="265" selection-end-column="52" />
+            <state relative-caret-position="272">
+              <caret line="257" column="57" lean-forward="true" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="57" />
               <folding>
                 <element signature="e#1229#2162#0" />
               </folding>
@@ -61,6 +61,7 @@
       <find>computeBH</find>
       <find>contains</find>
       <find>compute</find>
+      <find>listOfPlanets[i]</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -150,12 +151,12 @@
       <workItem from="1546802316707" duration="3921000" />
       <workItem from="1547326382658" duration="4728000" />
       <workItem from="1547413591365" duration="10097000" />
-      <workItem from="1547424724207" duration="5856000" />
+      <workItem from="1547424724207" duration="6605000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28619000" />
+    <option name="totallyTimeSpent" value="29368000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -185,22 +186,6 @@
     <option name="version" value="1" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/nbody/script.js</url>
-          <line>291</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/nbody/script.js</url>
-          <line>252</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="universe" language="JavaScript" />
@@ -275,8 +260,8 @@ planetIWantToKick</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="265" column="52" selection-start-line="265" selection-start-column="52" selection-end-line="265" selection-end-column="52" />
+        <state relative-caret-position="272">
+          <caret line="257" column="57" lean-forward="true" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="57" />
           <folding>
             <element signature="e#1229#2162#0" />
           </folding>

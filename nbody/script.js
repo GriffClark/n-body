@@ -248,51 +248,45 @@ function insert(b, location){
     }
 
 }//end insert function
-function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
+
+function computeBHForce(bhtree, planet, currentDepth) {
+    // currentDepth will be updated to show what level in the tree you are in
     //need to remove all null values which keep appearing for some fucking reason
-    console.log("start " + planet.fx + " " + planet.fy);
     let placeHolder = [];
-    for(let i = 0; i < bhtree.planetsContained.length; i++){
-        if(bhtree.planetsContained[i] !== null){
+    for (let i = 0; i < bhtree.planetsContained.length; i++) {
+        if (bhtree.planetsContained[i] !== null) {
             placeHolder.push(bhtree.planetsContained[i]);
         }
     }
-    for(let i = 0; i < placeHolder.length; i++){
+    for (let i = 0; i < placeHolder.length; i++) {
         bhtree.planetsContained.push(placeHolder[i]);
     }
 
 
-    if(bhtree.planet !== null && bhtree.planet !== planet){ //if you are not yourself
-        for(let m = 0; m < bhtree.children.length; m++){
-            if(bhtree.isExternal()){
+    if (bhtree.planet !== null && bhtree.planet !== planet) { //if you are not yourself
+        for (let m = 0; m < bhtree.children.length; m++) {
+            if (bhtree.isExternal()) {
                 addForce(planet, bhtree.planet);
-            }
-
-            else{
+            } else {
                 let hasPlanet = false;
-                for(let i = 0; i < bhtree.planetsContained.length; i++){
-                    if (bhtree.planetsContained[i] !== null && bhtree.planetsContained[i] === planet){ //TODO this works right?
+                for (let i = 0; i < bhtree.planetsContained.length; i++) {
+                    if (bhtree.planetsContained[i] !== null && bhtree.planetsContained[i] === planet) { //TODO this works right?
                         hasPlanet = true;
                     }
                 }
 
-                if(hasPlanet === true && bhtree.children[m] !== null){
-                    computeBHForce(bhtree.children[m], planet, currentDepth+1);
-                }
-
-                else{ //you are not external and you do not have the planet
-                    if(currentDepth < depth && bhtree.children[m] !== null) /*you need to go deeper*/{
-                        computeBHForce(bhtree.children[m], planet, currentDepth+1);
-                    }
-                    else
+                if (hasPlanet === true && bhtree.children[m] !== null) {
+                    computeBHForce(bhtree.children[m], planet, currentDepth + 1);
+                } else { //you are not external and you do not have the planet
+                    if (currentDepth < depth && bhtree.children[m] !== null) /*you need to go deeper*/{
+                        computeBHForce(bhtree.children[m], planet, currentDepth + 1);
+                    } else
                     /*you are at your depth*/ addForce(planet, bhtree.planet);
                 }
             }
         }
-        console.log("finish " + planet.fx + " " + planet.fy);
 
     }
-
 
     // let containsPlanet = false;
     // for(let q = 0; q < bhtree.children.length; q++) {
