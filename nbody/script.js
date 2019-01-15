@@ -90,8 +90,6 @@ class BHTree{
         //these values are set as null so that we can test if this is a leaf
         this.planetsContained = [];
         this.depth = depth;
-        this.planetsContained.push(this.planet);
-
         this.children = [this.nw, this.ne, this.sw, this.se];
     }
 
@@ -251,17 +249,6 @@ function insert(b, location){
 
 function computeBHForce(bhtree, planet, currentDepth) {
     // currentDepth will be updated to show what level in the tree you are in
-    //need to remove all null values which keep appearing for some fucking reason
-    let placeHolder = [];
-    for (let i = 0; i < bhtree.planetsContained.length; i++) {
-        if (bhtree.planetsContained[i] !== null) {
-            placeHolder.push(bhtree.planetsContained[i]);
-        }
-    }
-    for (let i = 0; i < placeHolder.length; i++) {
-        bhtree.planetsContained.push(placeHolder[i]);
-    }
-
 
     if (bhtree.planet !== null && bhtree.planet !== planet) { //if you are not yourself
         for (let m = 0; m < bhtree.children.length; m++) {
@@ -270,7 +257,7 @@ function computeBHForce(bhtree, planet, currentDepth) {
             } else {
                 let hasPlanet = false;
                 for (let i = 0; i < bhtree.planetsContained.length; i++) {
-                    if (bhtree.planetsContained[i] !== null && bhtree.planetsContained[i] === planet) { //TODO this works right?
+                    if (bhtree.planetsContained[i] !== null && bhtree.planetsContained[i] === planet) {
                         hasPlanet = true;
                     }
                 }
@@ -281,50 +268,14 @@ function computeBHForce(bhtree, planet, currentDepth) {
                     if (currentDepth < depth && bhtree.children[m] !== null) /*you need to go deeper*/{
                         computeBHForce(bhtree.children[m], planet, currentDepth + 1);
                     } else
-                    /*you are at your depth*/ addForce(planet, bhtree.planet);
+                        if(bhtree.planet.rx !== planet.rx){ //making sure you aren't trying to compute force on yourself 
+                            /*you are at your depth*/ addForce(planet, bhtree.planet);
+                        }
                 }
             }
         }
 
     }
-
-    // let containsPlanet = false;
-    // for(let q = 0; q < bhtree.children.length; q++) {
-    //     if(bhtree.children[q] != null && bhtree.children[q].planet != null){ //if the node is not null and if you have a planet
-    //         if(currentDepth<depth && bhtree.children[q].isExternal() === false){
-    //             computeBHForce(bhtree.children[q], planet, currentDepth++);
-    //         }
-    //         else
-    //         //for some reason, there are null values in the array. I'm too lazy to do it right so I am just going to get rid of them
-    //
-    //         for(let i = 0; i < bhtree.children[q].planetsContained.length; i++){
-    //             if(bhtree.children[q].planetsContained[i]!== null && bhtree.children[q].planetsContained[i].name === planet.name){
-    //                 containsPlanet = true;
-    //             }
-    //         }
-    //
-    //         if(containsPlanet === false)
-    //             computeBHForce(bhtree.children[q], planet, currentDepth++);
-    //
-    //         else{
-    //
-    //             if(bhtree.children[q].isExternal()){
-    //                 addForce(planet, bhtree.children[q].planet);
-    //             }
-    //             else if(currentDepth === depth){ //because if you have your planet it would have already triggered
-    //                 addForce(planet, bhtree.children[q].planet);
-    //             }
-    //             else
-    //                 console.log("unhandled error computeBHForce");
-    //         }
-    //
-    //     } //end else statement
-    //
-    // } //end for loop
-    // if(bhtree.isExternal()){
-    //     addForce(planet, bhtree.planet);
-    // }
-
 }
 
 
