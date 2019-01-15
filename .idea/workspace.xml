@@ -28,8 +28,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="169" lean-forward="true" selection-start-line="169" selection-end-line="169" />
+            <state relative-caret-position="186">
+              <caret line="265" column="52" selection-start-line="265" selection-start-column="52" selection-end-line="265" selection-end-column="52" />
+              <folding>
+                <element signature="e#1229#2162#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -51,12 +54,13 @@
       <find>setting u</find>
       <find>listOfPlanets.a</find>
       <find>insert(</find>
-      <find>contains</find>
       <find>kickPlanet</find>
       <find>update</find>
       <find>new bh</find>
       <find>insert</find>
       <find>computeBH</find>
+      <find>contains</find>
+      <find>compute</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -70,10 +74,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1928" />
-    <option name="y" value="25" />
-    <option name="width" value="1936" />
-    <option name="height" value="1096" />
+    <option name="x" value="298" />
+    <option name="y" value="-19" />
+    <option name="width" value="974" />
+    <option name="height" value="866" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -146,29 +150,29 @@
       <workItem from="1546802316707" duration="3921000" />
       <workItem from="1547326382658" duration="4728000" />
       <workItem from="1547413591365" duration="10097000" />
-      <workItem from="1547424724207" duration="3032000" />
+      <workItem from="1547424724207" duration="5856000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25795000" />
+    <option name="totallyTimeSpent" value="28619000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="25" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.06638567" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15753424" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.18587747" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.337487" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32917964" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -185,9 +189,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/nbody/script.js</url>
-          <line>250</line>
+          <line>291</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="43" />
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/nbody/script.js</url>
+          <line>252</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -209,12 +219,12 @@ planetIWantToKick</expression-string>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
-        <expression-string>listOfPlanets</expression-string>
+        <expression-string>planet</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>planet</expression-string>
+        <expression-string>otherPlanet</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -224,32 +234,32 @@ planetIWantToKick</expression-string>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>listOfPlanets[1]</expression-string>
+        <expression-string>bhtree</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>listOfPlanets[0]</expression-string>
+        <expression-string>planety</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>plusOrMinus</expression-string>
+        <expression-string>bhtree.children[q].planetsContained</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>this.rx</expression-string>
+        <expression-string>bhtree.children[q].planetsContained[i]</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>location</expression-string>
+        <expression-string>listOfPlanets</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
-        <expression-string>b</expression-string>
+        <expression-string>planet0</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -265,8 +275,11 @@ planetIWantToKick</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="169" lean-forward="true" selection-start-line="169" selection-end-line="169" />
+        <state relative-caret-position="186">
+          <caret line="265" column="52" selection-start-line="265" selection-start-column="52" selection-end-line="265" selection-end-column="52" />
+          <folding>
+            <element signature="e#1229#2162#0" />
+          </folding>
         </state>
       </provider>
     </entry>

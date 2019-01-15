@@ -88,9 +88,9 @@ class BHTree{
         this.sw = null; //tree representing the southwest quadrant
         this.se = null; //tree representing the southeast quadrant
         //these values are set as null so that we can test if this is a leaf
-        this.contains = [];
+        this.planetsContained = [];
         this.depth = depth;
-        this.contains.push(this.planet);
+        this.planetsContained.push(this.planet);
 
         this.children = [this.nw, this.ne, this.sw, this.se];
     }
@@ -212,7 +212,7 @@ function insert(b, location){
         //if this node is empty, put this planet into it
         if(location.planet === null){
             location.planet = b;
-            location.contains.push(b);
+            location.planetsContained.push(b);
         }
         /*
         if a body already exists here, but this node IS NOT external
@@ -236,10 +236,10 @@ function insert(b, location){
                 newVirtualPlanet.virtualPlanet = true;
                 location.planet = newVirtualPlanet;
                 location.planet.name +="*";
-                location.contains.push(location.planet); //make sure you also contain the new virtual planet
+                location.planetsContained.push(location.planet); //make sure you also contain the new virtual planet
             }
 
-            location.contains.push(b);
+            location.planetsContained.push(b);
             kickPlanet(b, location);
         }
     }
@@ -249,34 +249,90 @@ function insert(b, location){
 
 }//end insert function
 function computeBHForce(bhtree, planet, currentDepth ){ // currentDepth will be updated to show what level in the tree you are in
+    //need to remove all null values which keep appearing for some fucking reason
+    console.log("start " + planet.fx + " " + planet.fy);
+    let placeHolder = [];
+    for(let i = 0; i < bhtree.planetsContained.length; i++){
+        if(bhtree.planetsContained[i] !== null){
+            placeHolder.push(bhtree.planetsContained[i]);
+        }
+    }
+    for(let i = 0; i < placeHolder.length; i++){
+        bhtree.planetsContained.push(placeHolder[i]);
+    }
 
-    if(planet.virtualPlanet === false){ //we don't want to waste time computing forces on virtual planets
-        for(let q = 0; q < bhtree.children.length; q++){
-            if(bhtree.children[q] != null){ //if the tree is not null
-                let foundIt = false;
-                for(let i = 0; i < bhtree.children[q].contains.length; i++){ //loop through all of the planets this bhtree contains
-                    if(bhtree.children.name != null && bhtree.children[q].contains[i].name === planet.name){ //if it contains your planet
-                        computeBHForce(bhtree.children[q], planet, currentDepth+1); //look within this BHTree, and add 1 to your depth
-                        foundIt = true;
+
+    if(bhtree.planet !== null && bhtree.planet !== planet){ //if you are not yourself
+        for(let m = 0; m < bhtree.children.length; m++){
+            if(bhtree.isExternal()){
+                addForce(planet, bhtree.planet);
+            }
+
+            else{
+                let hasPlanet = false;
+                for(let i = 0; i < bhtree.planetsContained.length; i++){
+                    if (bhtree.planetsContained[i] !== null && bhtree.planetsContained[i] === planet){ //TODO this works right?
+                        hasPlanet = true;
                     }
                 }
-                if(foundIt === false){ //if the planet was not in there
-                    if(currentDepth){ //if it does not contain your planet, but you need to go deeper before you make a generalization
-                        computeBHForce(bhtree.children[q], planet, currentDepth+1);
-                    }
+
+                if(hasPlanet === true && bhtree.children[m] !== null){
+                    computeBHForce(bhtree.children[m], planet, currentDepth+1);
                 }
-                else
-                    addForce(planet, bhtree.children[q]);
+
+                else{ //you are not external and you do not have the planet
+                    if(currentDepth < depth && bhtree.children[m] !== null) /*you need to go deeper*/{
+                        computeBHForce(bhtree.children[m], planet, currentDepth+1);
+                    }
+                    else
+                    /*you are at your depth*/ addForce(planet, bhtree.planet);
+                }
             }
         }
-
-        if( bhtree.planet != null && bhtree.isExternal() && currentDepth < depth && bhtree.planet.name !== planet.name){
-            addForce(planet, bhtree.planet);
-        }
+        console.log("finish " + planet.fx + " " + planet.fy);
 
     }
 
+
+    // let containsPlanet = false;
+    // for(let q = 0; q < bhtree.children.length; q++) {
+    //     if(bhtree.children[q] != null && bhtree.children[q].planet != null){ //if the node is not null and if you have a planet
+    //         if(currentDepth<depth && bhtree.children[q].isExternal() === false){
+    //             computeBHForce(bhtree.children[q], planet, currentDepth++);
+    //         }
+    //         else
+    //         //for some reason, there are null values in the array. I'm too lazy to do it right so I am just going to get rid of them
+    //
+    //         for(let i = 0; i < bhtree.children[q].planetsContained.length; i++){
+    //             if(bhtree.children[q].planetsContained[i]!== null && bhtree.children[q].planetsContained[i].name === planet.name){
+    //                 containsPlanet = true;
+    //             }
+    //         }
+    //
+    //         if(containsPlanet === false)
+    //             computeBHForce(bhtree.children[q], planet, currentDepth++);
+    //
+    //         else{
+    //
+    //             if(bhtree.children[q].isExternal()){
+    //                 addForce(planet, bhtree.children[q].planet);
+    //             }
+    //             else if(currentDepth === depth){ //because if you have your planet it would have already triggered
+    //                 addForce(planet, bhtree.children[q].planet);
+    //             }
+    //             else
+    //                 console.log("unhandled error computeBHForce");
+    //         }
+    //
+    //     } //end else statement
+    //
+    // } //end for loop
+    // if(bhtree.isExternal()){
+    //     addForce(planet, bhtree.planet);
+    // }
+
 }
+
 
 //debug functions
 function debugPrint(bhtree){
