@@ -118,7 +118,7 @@ updateInsides(){
 let dt = 1; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
 let currentTime = 0;
 let stopTime = 5; //when do you want to run until?
-let numBodies = 20; //how many planets in your simulation
+let numBodies = 200; //how many planets in your simulation
 let listOfPlanets = []; //an array of unknows size
 let depth = 2; //how deep you want to go
 let maxBuildDepth = 5;
@@ -341,10 +341,6 @@ function init(){
     for(let i = 0; i < numBodies; i++){
         let name = "planet " + i;
         let newPlanet = generateRandomPlanet(name);
-        newPlanet.fx = 0;
-        newPlanet.fy = 0;
-        newPlanet.vx = 0;
-        newPlanet.vy = 0;
         console.log(newPlanet.name + " (" + newPlanet.rx + "," + newPlanet.ry + ")");
         listOfPlanets.push(newPlanet);
     }
@@ -371,9 +367,9 @@ function generateRandomPlanet(name){
     this.fy = 0;
     //these forces need to take into account everything else in the universe
     let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-    this.rx = (Math.random() * R) * plusOrMinus;
+    this.rx = (Math.random() * 1e9) * plusOrMinus;
     plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-    this.ry = (Math.random() * R) * plusOrMinus;
+    this.ry = (Math.random() * 1e9) * plusOrMinus;
 
 
     return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
@@ -399,11 +395,9 @@ function runBF(){
         updateVelocityPosition();
     }
 }
-function runBH(){
-    currentTime = 0;
-    R = 1; //this way R will eventually be equal to the greatest value among planets
+function runBH(){ //go through one cycle
+         R = 1; //this way R will eventually be equal to the greatest value among planets
 
-    while(currentTime < stopTime){
         let runLength = listOfPlanets.length;
         for(let i = 0; i < runLength; i++){
             if(Math.abs(listOfPlanets[i].rx) > R){
@@ -420,7 +414,6 @@ function runBH(){
         for(let i = 0; i < listOfPlanets.length; i++){
             insert(listOfPlanets[i], universe);
         }
-        currentTime += dt;
 
         for(let i = 0; i < runLength; i++){
             computeBHForce(universe, listOfPlanets[i], 0);
@@ -433,38 +426,76 @@ function runBH(){
         // for(let i = 0; i < listOfPlanets.length; i++){
         //     insert(listOfPlanets[i], universe);
         // }
-
-    }
-
 }
-
-function runSimulation(){
-    switch(interactionMethod){
-        case "BHTree":
-            init();
-            runBH();
-            break;
-
-        default:
-            init();
-            runBF();
-            break;
-
-
-    }
-}
+//
+// function runSimulation(){
+//     switch(interactionMethod){
+//         case "BHTree":
+//             init();
+//             runBH();
+//             break;
+//
+//         default:
+//             init();
+//             runBF();
+//             break;
+//
+//
+//     }
+// }
 
 
 let interactionMethod = "BHTree";
-runSimulation();
 console.log("------------");
 console.log(listOfPlanets);
 
 
-// interactionMethod = "BruteForce";
-// currentTime = 0;
-// runSimulation();
-// console.log(listOfPlanets);
+//MR. C
+
+function main(){ //merge with runSimulation
+    init();
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    // let t0 = (new Date()).getTime();
+    // let t1 = 0;
+    // let gDt = 0;
+    // let windowsize = oldwindowsize = cw > ch ? cw : ch;
+    // let deltasize;
+
+    window.requestAnimationFrame(gameloop);
+
+
+
+    function gameloop(){ //updating times
+        runBH();
+        ctx.clearRect(0,0,1920,1080);
+        for(let i = 0; i < listOfPlanets.length; i++){
+            updateC(listOfPlanets[i]);
+
+        }
+        window.requestAnimationFrame(gameloop); //recursive call so will go on forever
+    } //end game loop
+
+    function updateC(obj) { //pass in one plant
+        // //width and height indicators
+        ctx.fillStyle = 'green';
+        // ctx.fillText("Width: " + cw, 10, 50);
+        // ctx.fillText("Height: " + ch, 10, 70);
+        // ctx.fillText("Key: " + key, 10, 130);
+
+        //draws the circle
+        ctx.beginPath();
+        ctx.arc(obj.rx * 1.92e-16, obj.ry * 1.08e-16, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+    }
+}
+
+
+
+main();
 
 
 

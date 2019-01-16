@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>BH Simulation</title>
+    <title>Planets!</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Griffin Clark" />
+    <link rel="stylesheet" type="text/css" href="main.css" />
 </head>
 
 <body>
-<h1>Barnes-Hut Generalization simulation</h1>
-
-
-<form class="params" action="script.js" method="get">
-    How many bodies do you want? <input type = "number" id= "numBodies" placeholder="Enter number of bodies">
-    <br>
-    <input type = button value = "run" >
-</form>
-
+<div class="simulation">
+    <canvas id="canvas" width="1920" height="1080"></canvas>
+    <script src="script.js"></script>
+</div>
 </body>
 
-<script src="script.js"></script>
 </html>
