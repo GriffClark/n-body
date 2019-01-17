@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07fc097f-a0ee-46bf-aa74-2064225da9e7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbody/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbody/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nbody/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/nbody/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -33,10 +31,10 @@
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="149">
-              <caret line="340" column="47" selection-start-line="340" selection-start-column="47" selection-end-line="340" selection-end-column="47" />
+              <caret line="340" column="50" selection-start-line="340" selection-start-column="50" selection-end-line="340" selection-end-column="50" />
               <folding>
                 <element signature="e#1229#2162#0" />
-                <marker date="1547757199685" expanded="true" signature="78:105" ph="..." />
+                <marker date="1547758295508" expanded="true" signature="78:105" ph="..." />
               </folding>
             </state>
           </provider>
@@ -53,7 +51,6 @@
       <find>console</find>
       <find>name</find>
       <find>r</find>
-      <find>init</find>
       <find>generateRandomPlanet</find>
       <find>setting u</find>
       <find>listOfPlanets.a</find>
@@ -71,6 +68,9 @@
       <find>numBodies</find>
       <find>earthM</find>
       <find>sun</find>
+      <find>fx</find>
+      <find>init</find>
+      <find>let R</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,12 +162,12 @@
       <workItem from="1547413591365" duration="10097000" />
       <workItem from="1547424724207" duration="6605000" />
       <workItem from="1547672905815" duration="919000" />
-      <workItem from="1547755245962" duration="1608000" />
+      <workItem from="1547755245962" duration="2700000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31895000" />
+    <option name="totallyTimeSpent" value="32987000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
@@ -201,9 +201,9 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/nbody/script.js</url>
-          <line>371</line>
+          <line>495</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -225,6 +225,11 @@ planetIWantToKick</expression-string>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>obj.rx</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>this.rx</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -241,11 +246,6 @@ planetIWantToKick</expression-string>
       </expression>
       <expression>
         <expression-string>obj.rx* scaleFactor</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>obj.rx</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -282,10 +282,10 @@ planetIWantToKick</expression-string>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="149">
-          <caret line="340" column="47" selection-start-line="340" selection-start-column="47" selection-end-line="340" selection-end-column="47" />
+          <caret line="340" column="50" selection-start-line="340" selection-start-column="50" selection-end-line="340" selection-end-column="50" />
           <folding>
             <element signature="e#1229#2162#0" />
-            <marker date="1547757199685" expanded="true" signature="78:105" ph="..." />
+            <marker date="1547758295508" expanded="true" signature="78:105" ph="..." />
           </folding>
         </state>
       </provider>

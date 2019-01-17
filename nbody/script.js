@@ -4,7 +4,7 @@
 const G = 6.673e-11;
 const SOLARMASS = 1.98892e30;
 const EARTHMASS = 5.972e24;
-let R = 1e14;
+let R = 1e15;
 
 // classes we need
 class Planet {
@@ -118,7 +118,7 @@ updateInsides(){
 let dt = 1e6; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
 let currentTime = 0;
 let stopTime = 5; //when do you want to run until?
-let numBodies = 50; //how many planets in your simulation
+let numBodies = 500; //how many planets in your simulation
 let listOfPlanets = []; //an array of unknows size
 let depth = 2; //how deep you want to go
 let maxBuildDepth = 5;
@@ -338,8 +338,7 @@ function debugPrint(bhtree){
 //setting up the simulation
 function init(){
 
-    let sun = new Planet("sun", SOLARMASS, R, R ,0,0,0,0,);
-    insert(sun, universe);
+
     for(let i = 0; i < numBodies; i++){
         let name = "planet " + i;
         let newPlanet = generateRandomPlanet(name);
@@ -372,9 +371,9 @@ function generateRandomPlanet(name){
     this.rx = (Math.random() * R) * plusOrMinus;
     plusOrMinus = Math.random() < 0.5 ? -1 : 1;
     this.ry = (Math.random() * R) * plusOrMinus;
+    let planetMass = EARTHMASS * Math.pow(Math.random() * 2, 2);
 
-
-    return new Planet(name, EARTHMASS, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
+    return new Planet(name, planetMass, this.rx, this.ry, this.vx, this.vy, this.fx, this.fy);
 }
 
 //running the simulation
@@ -413,6 +412,8 @@ function runBH(){ //go through one cycle
         } //check Y values to increase R
 
         universe = new BHTree(q, 0); //create a new empty bhtree
+         let sun = new Planet("sun", SOLARMASS, 1e14, 1e14 ,0,0,0,0,);
+         insert(sun, universe);
         for(let i = 0; i < listOfPlanets.length; i++){
             insert(listOfPlanets[i], universe);
         }
@@ -480,23 +481,33 @@ function main(){ //merge with runSimulation
 
     function updateC(obj) { //pass in one plant
         // //width and height indicators
-        if(obj.name === "sun"){
-            ctx.fillStyle = 'yellow';
-        }
-        else
-            ctx.fillStyle = 'purple';
+
 
         // ctx.fillText("Width: " + cw, 10, 50);
         // ctx.fillText("Height: " + ch, 10, 70);
         // ctx.fillText("Key: " + key, 10, 130);
 
         //draws the circle
-        let scaleFactor = 270/1e16;
-        ctx.beginPath();
-        ctx.arc(obj.rx * scaleFactor + 960, obj.ry * scaleFactor + 540, 5, 0, 2 * Math.PI);
-        ctx.fill();
+        let scaleFactor = 270/1e15;
+        if(obj.name === "sun"){
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+
+            ctx.arc(obj.rx * scaleFactor + 500, obj.ry * scaleFactor + 300, 2, 0, 2 * Math.PI);
+            ctx.fill();
+
+        }
+        else{
+            ctx.fillStyle = 'purple';
+            ctx.beginPath();
+
+            ctx.arc(obj.rx * scaleFactor + 500, obj.ry * scaleFactor + 300, 2, 0, 2 * Math.PI);
+            ctx.fill();
+
+
+        }
         ctx.strokeStyle = 'black';
-        ctx.lineWidth = 5e-25 * obj.mass;
+        ctx.lineWidth = 0.5;
         ctx.stroke();
     }
 }
