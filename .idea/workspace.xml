@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07fc097f-a0ee-46bf-aa74-2064225da9e7" name="Default Changelist" comment="" />
+    <list default="true" id="07fc097f-a0ee-46bf-aa74-2064225da9e7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbody/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbody/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbody/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/nbody/script.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -28,10 +32,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="257" column="57" lean-forward="true" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="57" />
+            <state relative-caret-position="149">
+              <caret line="340" column="47" selection-start-line="340" selection-start-column="47" selection-end-line="340" selection-end-column="47" />
               <folding>
                 <element signature="e#1229#2162#0" />
+                <marker date="1547757199685" expanded="true" signature="78:105" ph="..." />
               </folding>
             </state>
           </provider>
@@ -49,7 +54,6 @@
       <find>name</find>
       <find>r</find>
       <find>init</find>
-      <find>numBodies</find>
       <find>generateRandomPlanet</find>
       <find>setting u</find>
       <find>listOfPlanets.a</find>
@@ -62,6 +66,11 @@
       <find>contains</find>
       <find>compute</find>
       <find>listOfPlanets[i]</find>
+      <find>dt</find>
+      <find>numB</find>
+      <find>numBodies</find>
+      <find>earthM</find>
+      <find>sun</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -76,7 +85,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="298" />
-    <option name="y" value="-19" />
+    <option name="y" value="-20" />
     <option name="width" value="974" />
     <option name="height" value="866" />
   </component>
@@ -152,23 +161,25 @@
       <workItem from="1547326382658" duration="4728000" />
       <workItem from="1547413591365" duration="10097000" />
       <workItem from="1547424724207" duration="6605000" />
+      <workItem from="1547672905815" duration="919000" />
+      <workItem from="1547755245962" duration="1608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29368000" />
+    <option name="totallyTimeSpent" value="31895000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15753424" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15687732" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.337487" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3371069" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -186,6 +197,16 @@
     <option name="version" value="1" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/nbody/script.js</url>
+          <line>371</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="JavascriptDebugType">
         <watch expression="universe" language="JavaScript" />
@@ -204,47 +225,47 @@ planetIWantToKick</expression-string>
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>this.rx</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>this.ry</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>vx</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obj.rx* scaleFactor</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obj.rx</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obj.rx * 1.92e-15</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obj.rx * 1.92e-16</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>planet</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
       <expression>
         <expression-string>otherPlanet</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>thisPlanet</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>bhtree</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>planety</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>bhtree.children[q].planetsContained</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>bhtree.children[q].planetsContained[i]</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>listOfPlanets</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>planet0</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -260,10 +281,11 @@ planetIWantToKick</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="257" column="57" lean-forward="true" selection-start-line="257" selection-start-column="57" selection-end-line="257" selection-end-column="57" />
+        <state relative-caret-position="149">
+          <caret line="340" column="47" selection-start-line="340" selection-start-column="47" selection-end-line="340" selection-end-column="47" />
           <folding>
             <element signature="e#1229#2162#0" />
+            <marker date="1547757199685" expanded="true" signature="78:105" ph="..." />
           </folding>
         </state>
       </provider>
