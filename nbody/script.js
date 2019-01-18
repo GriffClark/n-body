@@ -54,14 +54,14 @@ class Quad {
 
 
     //check if current quadrant contains a point
-    contains(xmid, ymid){ //TODO test this
-        if(xmid<=xmid+length/2.0 && xmid>=xmid-length/2.0 && ymid<=ymid+length/2.0 && ymid>=ymid-length/2.0){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    // contains(xmid, ymid){ //TODO test this
+    //     if(xmid<=xmid+length/2.0 && xmid>=xmid-length/2.0 && ymid<=ymid+length/2.0 && ymid>=ymid-length/2.0){
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
 
     //creates subdivisions of the current quadrant
     NW(){
@@ -118,10 +118,10 @@ updateInsides(){
 let dt = 1e6; //each time step will take place over a 1 second interval. The smaller this number is, the more accurate your simulation will be, but the longer it will take.
 let currentTime = 0;
 let stopTime = 5; //when do you want to run until?
-let numBodies = 500; //how many planets in your simulation
+let numBodies = 2; //how many planets in your simulation
 let listOfPlanets = []; //an array of unknows size
-let depth = 2; //how deep you want to go
-let maxBuildDepth = 5;
+let depth = 3; //how deep you want to go
+let maxBuildDepth = 10;
 let shouldRun = false; //TODO change this to true when the run button is clicked
 // let numBodies = document.getElementById("numBodies"); //TODO how to stop model from generating until form has been submitted
 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07fc097f-a0ee-46bf-aa74-2064225da9e7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nbody/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/nbody/script.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -30,11 +31,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/nbody/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="340" column="50" selection-start-line="340" selection-start-column="50" selection-end-line="340" selection-end-column="50" />
+            <state relative-caret-position="183">
+              <caret line="122" column="13" selection-start-line="122" selection-start-column="13" selection-end-line="122" selection-end-column="13" />
               <folding>
                 <element signature="e#1229#2162#0" />
-                <marker date="1547758295508" expanded="true" signature="78:105" ph="..." />
+                <marker date="1547778553359" expanded="true" signature="78:105" ph="..." />
               </folding>
             </state>
           </provider>
@@ -44,8 +45,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>debug</find>
-      <find>BFGuts</find>
       <find>addForce</find>
       <find>velocity</find>
       <find>console</find>
@@ -67,10 +66,15 @@
       <find>numB</find>
       <find>numBodies</find>
       <find>earthM</find>
-      <find>sun</find>
       <find>fx</find>
       <find>init</find>
       <find>let R</find>
+      <find>sun</find>
+      <find>universe</find>
+      <find>runBH</find>
+      <find>runBF</find>
+      <find>50</find>
+      <find>1000</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,12 +166,12 @@
       <workItem from="1547413591365" duration="10097000" />
       <workItem from="1547424724207" duration="6605000" />
       <workItem from="1547672905815" duration="919000" />
-      <workItem from="1547755245962" duration="2700000" />
+      <workItem from="1547755245962" duration="5670000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32987000" />
+    <option name="totallyTimeSpent" value="35957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1381" height="925" extended-state="6" />
@@ -179,7 +183,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3371069" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3371069" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -201,9 +205,15 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/nbody/script.js</url>
-          <line>495</line>
+          <line>492</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="5" />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/nbody/script.js</url>
+          <line>471</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -224,6 +234,11 @@ planetIWantToKick</expression-string>
       </expression>
     </expressions>
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>sun</expression-string>
+        <language-id>JavaScript</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>obj.rx</expression-string>
         <language-id>JavaScript</language-id>
@@ -264,11 +279,6 @@ planetIWantToKick</expression-string>
         <language-id>JavaScript</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>otherPlanet</expression-string>
-        <language-id>JavaScript</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
@@ -281,11 +291,11 @@ planetIWantToKick</expression-string>
     </entry>
     <entry file="file://$PROJECT_DIR$/nbody/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="340" column="50" selection-start-line="340" selection-start-column="50" selection-end-line="340" selection-end-column="50" />
+        <state relative-caret-position="183">
+          <caret line="122" column="13" selection-start-line="122" selection-start-column="13" selection-end-line="122" selection-end-column="13" />
           <folding>
             <element signature="e#1229#2162#0" />
-            <marker date="1547758295508" expanded="true" signature="78:105" ph="..." />
+            <marker date="1547778553359" expanded="true" signature="78:105" ph="..." />
           </folding>
         </state>
       </provider>
